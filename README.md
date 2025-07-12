@@ -13,11 +13,10 @@
 
 ## Ordner Struktur
 ```
+.
 ├── index.html
 ├── package.json
 ├── package-lock.json
-├── public
-│   └── vite.svg
 ├── README.md
 ├── shell.nix
 ├── src
