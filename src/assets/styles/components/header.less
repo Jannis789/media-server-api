@@ -1,0 +1,43 @@
+@header-bg: #222;
+@header-color: #fff;
+@header-height: 60px;
+
+header.header {
+  background: @header-bg;
+  color: @header-color;
+  height: @header-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  nav {
+    ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        a {
+          color: @header-color;
+          text-decoration: none;
+          font-size: 1rem;
+          transition: color 0.2s;
+
+          &:hover {
+            color: lighten(@header-color, 20%);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

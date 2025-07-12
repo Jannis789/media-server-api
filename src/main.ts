@@ -1,9 +1,7 @@
-import './assets/styles/index.less'
 import Alpine from 'alpinejs'
-// @ts-ignore
-import component from 'alpinejs-component'
+import "htmx.org";
 
-Alpine.plugin(component)
 window.Alpine = Alpine
-
 Alpine.start()
+
+import.meta.glob('./assets/styles/**/*.less', { eager: true })
