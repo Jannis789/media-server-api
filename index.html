@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div x-data="{ count: 0 }" class="counter">
+        <button @click="count--">-</button>
+        <span x-text="count"></span>
+        <button @click="count++">+</button>
+      </div>
+    </div>
+  </body>
+</html>
