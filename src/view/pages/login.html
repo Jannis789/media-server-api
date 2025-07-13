@@ -5,38 +5,19 @@
     <title>Media Server</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <style title="login-form">
+      @import url('../../assets/styles/components/login-form.less');
+    </style>
     <style title="global">
       @import url('../../assets/styles/global.less');
-    </style>
-    <style title="header">
-      @import url('../../assets/styles/components/header.less');
-    </style>
-    <style title="footer">
-      @import url('../../assets/styles/components/footer.less');
-    </style>
-    <style title="body">
-      @import url('../../assets/styles/components/body.less');
-    </style>
-    <style title="login">
-      @import url('../../assets/styles/pages/login.less');
     </style>
   </head>
   <body x-data>
     <div id="app">
       <x-component 
-        id="header"
-        url="view/components/header.html" 
-        styles="header">
-      </x-component>
-      <x-component 
         id="main"
-        url="view/components/body.html" 
-        styles="login">
-      </x-component>
-      <x-component 
-        id="footer"
-        url="view/components/footer.html" 
-        styles="footer">
+        url="view/components/login-form.html" 
+        styles="login-form">
       </x-component>
     </div>
   </body>
