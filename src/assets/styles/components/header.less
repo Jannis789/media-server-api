@@ -45,10 +45,12 @@
     padding: @container-padding;
     border-radius: @standard-radius;
     background-color: @fg3;
-    backdrop-filter: blur(10px);
     transition: all 0.5s ease;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05), @shadow;
+    box-shadow: 0 0px 40px rgba(100, 100, 150, 0.5), @shadow;
     overflow: hidden;
+    backdrop-filter: blur(10px);
+    background: fade(#fff, 80%);
+
 
     &::before {
         content: "";

@@ -22,13 +22,14 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(40, 50, 80, 1) 0%, rgba(70, 60, 90, 1) 50%, rgba(40, 50, 80, 1) 100%);
+  background: linear-gradient(135deg, rgb(99, 113, 155) 0%, rgb(118, 101, 151) 50%, rgb(99, 113, 155) 100%);
   background-size: cover;
   background-position: center;
-  margin: 0px 40px 0 40px;
+  margin: 0px 45px 0 45px;
   border-radius: 20px;
   -webkit-box-shadow: 0px 0px 8px 4px rgba(70, 60, 90, 0.5); 
   box-shadow: 0px 0px 8px 4px rgba(70, 60, 90, 0.5);
+  opacity: 0.80;
 }
 
 .content {
@@ -36,6 +37,7 @@ main {
   background: transparent;
   border: 2px solid fade(@color-white, 20%);
   backdrop-filter: blur(13px);
+  background: fade(@color-white, 10%);
   padding: 30px 35px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
