@@ -1,6 +1,6 @@
 @import url('../color-palette.less');
+@import url('../global-vars.less');
 
-@font-main: Poppins, sans-serif;
 @color-white: #fff;
 @color-primary: #0a2862;
 @border-radius: 30px;
@@ -18,7 +18,7 @@
 }
 
 main {
-  min-height: calc(100vh - 48px);
+  min-height: calc(100vh - @header-height);
   display: flex;
   align-items: center;
   justify-content: center;
