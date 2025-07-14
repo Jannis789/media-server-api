@@ -3,6 +3,7 @@ import "htmx.org"
 import PineconeRouter from 'pinecone-router'
 import component from 'alpinejs-component'
 import initializeRoutes from './controller/Routes'
+import './assets/styles/global.less'
 
 window.Alpine = Alpine
 Alpine.plugin(component)

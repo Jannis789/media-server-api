@@ -18,14 +18,17 @@
 }
 
 main {
-  min-height: 100vh;
-  width: 100%;
+  min-height: calc(100vh - 48px);
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgba(40, 50, 80, 1) 0%, rgba(70, 60, 90, 1) 50%, rgba(40, 50, 80, 1) 100%);
   background-size: cover;
   background-position: center;
+  margin: 0px 40px 0 40px;
+  border-radius: 20px;
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(70, 60, 90, 0.5); 
+  box-shadow: 0px 0px 8px 4px rgba(70, 60, 90, 0.5);
 }
 
 .content {
@@ -36,6 +39,7 @@ main {
   padding: 30px 35px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px 0;
 
   h2 {
     font-size: 38px;
