@@ -11,9 +11,18 @@
     <style title="global">
       @import url('../../assets/styles/global.less');
     </style>
+    <style title="header">
+      @import url('../../assets/styles/components/header.less');
+    </style>
   </head>
   <body x-data>
     <div id="app">
+      <x-component
+        id="header"
+        url="view/components/header.html"
+        styles="header">
+      </x-component>
+      <div class="body-offset"></div>
       <x-component 
         id="main"
         url="view/components/login-form.html" 
