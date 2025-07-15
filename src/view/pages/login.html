@@ -5,6 +5,10 @@
     <title>Media Server</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <style>
+      @import url('../../assets/styles/pages/login.less');
+    </style>
+
     <style title="login-form">
       @import url('../../assets/styles/components/login-form.less');
     </style>
@@ -19,13 +23,12 @@
     </style>
   </head>
   <body x-data>
-    <div id="app">
+    <div id="app" class="login-page">
       <x-component
         id="header"
         url="view/components/header.html"
         styles="header">
       </x-component>
-      <div class="body-offset"></div>
       <x-component 
         id="main"
         url="view/components/login-form.html" 

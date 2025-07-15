@@ -1,22 +1,19 @@
 @import "../color-palette.less";
 
-@header-padding: 14px 22px;
+@header-padding: 0 0 14px 0px;
 @container-padding: 16px 24px;
-@standard-radius: 24px;
-@shadow: 0 0px 6px 0 rgba(224, 230, 245, 1);
 @transition: all 0.3s ease;
 @cta-radius: 30px;
 @cta-padding: 12px 24px;
 @cta-bg: #000;
 @cta-color: white;
-@cta-hover-bg: #333;
 
 .header {
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    position: fixed;
+    position: sticky;
     padding: @header-padding;
     box-sizing: border-box;
     transition: @transition;
@@ -26,7 +23,7 @@
         .desktop-nav a { color: white; }
         .cta-button {
             background-color: white;
-            color: black;
+            color: @text-main-dark;
         }
         .hamburger span { background-color: white; }
         .header-container::before {
@@ -43,10 +40,10 @@
     align-items: center;
     margin: 0 auto;
     padding: @container-padding;
-    border-radius: @standard-radius;
+    border-radius: @big-radius;
     background-color: @fg3;
     transition: all 0.5s ease;
-    box-shadow: 0 0px 40px rgba(100, 100, 150, 0.5), @shadow;
+    box-shadow: @white-accent-shadow;
     overflow: hidden;
     backdrop-filter: blur(10px);
     background: fade(#fff, 80%);
@@ -96,7 +93,7 @@
 
 .cta-button {
     background-color: @cta-bg;
-    color: @cta-color;
+    color: #fff;
     border: none;
     padding: @cta-padding;
     border-radius: @cta-radius;
@@ -106,7 +103,7 @@
     z-index: 1;
 
     &:hover {
-        background-color: @cta-hover-bg;
+        background-color: @dark-hover;
         transform: translateY(-2px);
     }
 }
