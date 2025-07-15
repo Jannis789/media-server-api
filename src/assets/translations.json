@@ -1,0 +1,20 @@
+{
+  "_comments": {
+    "1": "This file contains translations for the application.",
+    "2": "2. @todo Install husky and count version of the software and make a metadata file for the Website itself.",
+    "3": "3. @todo Remove Comment 2 and 3 after implementing the metadata file."
+  },
+  "metadata": {
+    "version": "00.00.01",
+    "lastUpdated": "2025-07-15T12:00:00Z"
+  },
+  "currentLanguage": "en",
+  "translations": {
+    "login": { "de": "Anmelden", "en": "Login" },
+    "username": { "de": "Benutzername", "en": "Username" },
+    "password": { "de": "Passwort", "en": "Password" },
+    "remember-me": { "de": "Angemeldet bleiben", "en": "Remember me" },
+    "password-lost": { "de": "Passwort vergessen?", "en": "Forgot Password?" },
+    "create-account": { "de": "Konto erstellen", "en": "Create Account" }
+  }
+}
