@@ -14,6 +14,9 @@
     <style title="header">
       @import url('../../assets/styles/components/header.less');
     </style>
+    <style title="footer">
+      @import url('../../assets/styles/components/footer.less');
+    </style>
   </head>
   <body x-data>
     <div id="app">
@@ -27,6 +30,11 @@
         id="main"
         url="view/components/login-form.html" 
         styles="login-form">
+      </x-component>
+      <x-component 
+        id="footer"
+        url="view/components/footer.html" 
+        styles="footer">
       </x-component>
     </div>
   </body>

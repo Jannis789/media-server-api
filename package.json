@@ -15,7 +15,7 @@
     "htmx.org": "^2.0.6",
     "less": "^4.3.0",
     "pinecone-router": "^7.2.0",
-    "supabase": "^2.30.4",
+    "supabase": "^2.31.4",
     "typescript": "~5.8.3",
     "vite": "^7.0.4"
   },
