@@ -13,6 +13,7 @@
     "password": { "de": "Passwort", "en": "Password" },
     "remember-me": { "de": "Angemeldet bleiben", "en": "Remember me" },
     "password-lost": { "de": "Passwort vergessen?", "en": "Forgot Password?" },
-    "create-account": { "de": "Konto erstellen", "en": "Create Account" }
+    "create-account": { "de": "Konto erstellen", "en": "Create Account" },
+    "welcome": { "de": "Willkommen", "en": "Welcome" }
   }
 }

@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import translations from './src/assets/translations.json' assert { type: "json" };
+import translations from '../../src/assets/translations.json' with { type: 'json' };
 
 // Prüfe, ob translations.json geändert wurde
 const changedFiles = execSync('git diff --name-only HEAD~1 HEAD').toString().split('\n');
