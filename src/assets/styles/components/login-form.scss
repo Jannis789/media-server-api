@@ -1,9 +1,8 @@
-@import url("../color-palette.less");
-@import url("../global-vars.less");
+@use "../_global" as *;
 
-@color-white: #fff;
-@color-primary: #0a2862;
-@border-radius: 30px;
+$color-white: #fff;
+$color-primary: #0a2862;
+$border-radius: 30px;
 
 * {
     margin: 0;
@@ -13,12 +12,12 @@
     list-style-type: none;
     border: none;
     outline: none;
-    font-family: @font-main;
-    color: @color-white;
+    font-family: $font-main;
+    color: $color-white;
 }
 
 main {
-    min-height: calc(100vh - (@header-height + 20px));
+    min-height: calc(100vh - ($header-height + 20px));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,17 +31,17 @@ main {
     background-position: center;
     margin: 0px 24px 0 24px;
     border-radius: 20px;
-    -webkit-box-shadow: @cold-accent-shadow;
-    box-shadow: @cold-accent-shadow;
+    -webkit-box-shadow: $cold-accent-shadow;
+    box-shadow: $cold-accent-shadow;
     opacity: 0.8;
 }
 
 .content {
     width: 400px;
     background: transparent;
-    border: 2px solid fade(@color-white, 20%);
+    border: 2px solid rgba($color-white, 0.2);
     backdrop-filter: blur(13px);
-    background: fade(@color-white, 10%);
+    background: rgba($color-white, 0.1);
     padding: 30px 35px;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -64,13 +63,13 @@ main {
             background: transparent;
             width: 100%;
             height: 100%;
-            border: 2px solid fade(@color-white, 20%);
-            border-radius: @border-radius;
+            border: 2px solid rgba($color-white, 0.2);
+            border-radius: $border-radius;
             padding: 20px 45px 20px 20px;
             font-size: 16px;
 
             &::placeholder {
-                color: @color-white;
+                color: $color-white;
                 font-size: 16px;
             }
         }
@@ -81,7 +80,7 @@ main {
             right: 18px;
             transform: translateY(-50%);
             font-size: 18px;
-            color: @color-white;
+            color: $color-white;
         }
     }
 
@@ -92,12 +91,12 @@ main {
         margin: -16px 0 16px 0;
 
         label input {
-            accent-color: @color-white;
+            accent-color: $color-white;
             margin-right: 4px;
         }
 
         a {
-            color: @color-white;
+            color: $color-white;
             text-decoration: none;
 
             &:hover {
@@ -109,10 +108,10 @@ main {
 
 .btnn {
     display: inline-block;
-    background: @color-white;
-    color: @color-primary;
+    background: $color-white;
+    color: $color-primary;
     width: 100%;
-    border-radius: @border-radius;
+    border-radius: $border-radius;
     font-size: 16px;
     height: 45px;
     font-weight: 600;
@@ -132,7 +131,7 @@ main {
     text-align: center;
 
     a {
-        color: @color-white;
+        color: $color-white;
         font-size: 16px;
         font-weight: 500;
         text-decoration: none;

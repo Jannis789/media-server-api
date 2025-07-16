@@ -1,10 +1,7 @@
 import { defineConfig } from "vite";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-import path from "path";
+import * as path from "node:path";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
+// Ensure that src/main.ts exists, since root is set to "src"
 export default defineConfig({
     root: "src",
     resolve: {
@@ -14,7 +11,7 @@ export default defineConfig({
     },
     css: {
         preprocessorOptions: {
-            less: {},
+            sass: {},
         },
     },
 });

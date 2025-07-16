@@ -1,4 +1,4 @@
-@import "../color-palette.less";
+@use "../_global" as *;
 
 footer {
     background: rgba(255, 255, 255, 0.8);
@@ -12,6 +12,6 @@ footer {
     align-items: center;
 
     .footer-text {
-        color: @text-main-dark;
+        color: $text-main-dark;
     }
 }

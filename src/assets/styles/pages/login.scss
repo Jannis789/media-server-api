@@ -1,4 +1,4 @@
-@import url("../color-palette.less");
+@use "../_global" as *;
 
 .login-page {
     // (480 px − 4 px) ÷ (3000 px − 600 px) = 0.198 ≈ 0.2 = P(x: 4|y: 600)

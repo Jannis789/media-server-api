@@ -1,12 +1,12 @@
-@import "../color-palette.less";
+@use "../_global" as *;
 
-@header-padding: 0 0 14px 0px;
-@container-padding: 16px 24px;
-@transition: all 0.3s ease;
-@cta-radius: 30px;
-@cta-padding: 12px 24px;
-@cta-bg: #000;
-@cta-color: white;
+$header-padding: 0 0 14px 0px;
+$container-padding: 16px 24px;
+$transition: all 0.3s ease;
+$cta-radius: 30px;
+$cta-padding: 12px 24px;
+$cta-bg: #000;
+$cta-color: white;
 
 .header {
     top: 0;
@@ -14,9 +14,9 @@
     width: 100%;
     z-index: 1000;
     position: sticky;
-    padding: @header-padding;
+    padding: $header-padding;
     box-sizing: border-box;
-    transition: @transition;
+    transition: $transition;
 
     &.scrolled {
         .logo {
@@ -27,7 +27,7 @@
         }
         .cta-button {
             background-color: white;
-            color: @text-main-dark;
+            color: $text-main-dark;
         }
         .hamburger span {
             background-color: white;
@@ -45,14 +45,14 @@
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
-    padding: @container-padding;
-    border-radius: @big-radius;
-    background-color: @fg3;
+    padding: $container-padding;
+    border-radius: $big-radius;
+    background-color: $fg3;
     transition: all 0.5s ease;
-    box-shadow: @white-accent-shadow;
+    box-shadow: $white-accent-shadow;
     overflow: hidden;
     backdrop-filter: blur(10px);
-    background: fade(#fff, 80%);
+    background: rgba(#fff, 0.8);
 
     &::before {
         content: "";
@@ -102,18 +102,18 @@
 }
 
 .cta-button {
-    background-color: @cta-bg;
+    background-color: $cta-bg;
     color: #fff;
     border: none;
-    padding: @cta-padding;
-    border-radius: @cta-radius;
+    padding: $cta-padding;
+    border-radius: $cta-radius;
     font-weight: 600;
     cursor: pointer;
-    transition: @transition;
+    transition: $transition;
     z-index: 1;
 
     &:hover {
-        background-color: @dark-hover;
+        background-color: $dark-hover;
         transform: translateY(-2px);
     }
 }
@@ -133,7 +133,7 @@
         height: 3px;
         margin: 5px 0;
         background-color: #000;
-        transition: @transition;
+        transition: $transition;
     }
 }
 
@@ -170,7 +170,7 @@
     color: black;
     border: none;
     padding: 15px 30px;
-    border-radius: @cta-radius;
+    border-radius: $cta-radius;
     font-weight: 600;
     font-size: 18px;
     margin-top: 20px;
