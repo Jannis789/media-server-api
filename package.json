@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,6 +11,7 @@
     "bump-version": "node .husky/scripts/bump-version.js",
     "prepare": "husky install"
   },
+
   "devDependencies": {
     "@types/alpinejs": "^3.13.11",
     "@types/node": "^24.0.13",
@@ -22,6 +24,7 @@
     "typescript": "~5.8.3",
     "vite": "^7.0.4"
   },
+
   "dependencies": {
     "alpinejs": "^3.14.9"
   }
