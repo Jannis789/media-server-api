@@ -2,16 +2,17 @@
 
 ## Grundgerüste, die aufgebaut werden sollten
 
-* **AlpineJs**
+- **AlpineJs**
   Frontend
 
-* **alpine-components**
+- **alpine-components**
   Für HTML-Bausteine
 
-* **Vite**
+- **Vite**
   Build-Tool für typescript
 
 ## Ordner Struktur
+
 ```
 .
 ├── index.html

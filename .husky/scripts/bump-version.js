@@ -7,71 +7,71 @@ const newVersion = updateTranslationsVersion();
 updateMetadata(newVersion);
 
 function updateTranslationsVersion() {
-  // Prüfe, ob translations.json geändert wurde
-  const changedFiles = execSync("git diff --name-only HEAD~1 HEAD")
-    .toString()
-    .split("\n");
-  if (!changedFiles.includes("src/assets/translations.json")) {
-    return null;
-  }
-
-  let version = translations.metadata.version || "00.00.00";
-  translations.metadata.lastUpdated = new Date().toISOString();
-
-  let parts = version.split(".").map(Number);
-
-  if (parts[2] < 99) {
-    parts[2]++;
-  } else {
-    parts[2] = 0;
-    if (parts[1] < 99) {
-      parts[1]++;
-    } else {
-      parts[1] = 0;
-      if (parts[0] < 99) {
-        parts[0]++;
-      }
+    // Prüfe, ob translations.json geändert wurde
+    const changedFiles = execSync("git diff --name-only HEAD~1 HEAD")
+        .toString()
+        .split("\n");
+    if (!changedFiles.includes("src/assets/translations.json")) {
+        return null;
     }
-  }
 
-  version = parts.map((n) => n.toString().padStart(2, "0")).join(".");
+    let version = translations.metadata.version || "00.00.00";
+    translations.metadata.lastUpdated = new Date().toISOString();
 
-  translations.metadata.version = version;
+    let parts = version.split(".").map(Number);
 
-  // Pfad zur JSON-Datei (relativ zum aktuellen Arbeitsverzeichnis)
-  const filePath = path.resolve("src/assets/translations.json");
+    if (parts[2] < 99) {
+        parts[2]++;
+    } else {
+        parts[2] = 0;
+        if (parts[1] < 99) {
+            parts[1]++;
+        } else {
+            parts[1] = 0;
+            if (parts[0] < 99) {
+                parts[0]++;
+            }
+        }
+    }
 
-  fs.writeFileSync(filePath, JSON.stringify(translations, null, 2));
+    version = parts.map((n) => n.toString().padStart(2, "0")).join(".");
 
-  console.log(`✅ Version updated to ${version}`);
-  return version;
+    translations.metadata.version = version;
+
+    // Pfad zur JSON-Datei (relativ zum aktuellen Arbeitsverzeichnis)
+    const filePath = path.resolve("src/assets/translations.json");
+
+    fs.writeFileSync(filePath, JSON.stringify(translations, null, 2));
+
+    console.log(`✅ Version updated to ${version}`);
+    return version;
 }
 
 function updateMetadata(version) {
-  const metadataPath = path.resolve("metadata.json");
-  const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
+    const metadataPath = path.resolve("metadata.json");
+    const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
 
-  // Aktuelle Commit-Hashes und Branch holen
-  const currentCommit = execSync("git rev-parse HEAD").toString().trim();
-  let lastCommit;
-  try {
-    lastCommit = execSync("git rev-parse HEAD~1").toString().trim();
-  } catch {
-    lastCommit = currentCommit;
-  }
-  const currentBranch = execSync("git rev-parse --abbrev-ref HEAD")
-    .toString()
-    .trim();
+    // Aktuelle Commit-Hashes und Branch holen
+    const currentCommit = execSync("git rev-parse HEAD").toString().trim();
+    let lastCommit;
+    try {
+        lastCommit = execSync("git rev-parse HEAD~1").toString().trim();
+    } catch {
+        lastCommit = currentCommit;
+    }
+    const currentBranch = execSync("git rev-parse --abbrev-ref HEAD")
+        .toString()
+        .trim();
 
-  // Felder aktualisieren
-  metadata.currentCommit = currentCommit;
-  metadata.lastCommit = lastCommit;
-  if (version) {
-    metadata.version = version;
-  }
-  metadata.currentBranch = currentBranch;
+    // Felder aktualisieren
+    metadata.currentCommit = currentCommit;
+    metadata.lastCommit = lastCommit;
+    if (version) {
+        metadata.version = version;
+    }
+    metadata.currentBranch = currentBranch;
 
-  fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 4));
+    fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 4));
 
-  console.log(`✅ Metadata updated with current commit ${currentCommit}`);
+    console.log(`✅ Metadata updated with current commit ${currentCommit}`);
 }

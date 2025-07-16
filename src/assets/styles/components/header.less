@@ -19,13 +19,19 @@
     transition: @transition;
 
     &.scrolled {
-        .logo { color: white; }
-        .desktop-nav a { color: white; }
+        .logo {
+            color: white;
+        }
+        .desktop-nav a {
+            color: white;
+        }
         .cta-button {
             background-color: white;
             color: @text-main-dark;
         }
-        .hamburger span { background-color: white; }
+        .hamburger span {
+            background-color: white;
+        }
         .header-container::before {
             transform: translateX(0) scale(1);
             opacity: 1;
@@ -48,16 +54,20 @@
     backdrop-filter: blur(10px);
     background: fade(#fff, 80%);
 
-
     &::before {
         content: "";
         position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background-color: rgba(0, 0, 0, 0.9);
         transform: translateX(100%) scale(0.85);
         opacity: 0;
-        transition: transform 0.5s ease, opacity 0.5s ease, scale 0.5s ease;
+        transition:
+            transform 0.5s ease,
+            opacity 0.5s ease,
+            scale 0.5s ease;
         z-index: -1;
         border-radius: 16px;
     }
@@ -150,7 +160,9 @@
         font-weight: 500;
     }
 
-    &.open { right: 0; }
+    &.open {
+        right: 0;
+    }
 }
 
 .mobile-cta-button {
@@ -167,14 +179,28 @@
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-    .desktop-nav { display: none; }
-    .hamburger { display: block; }
-    .cta-button { display: none; }
-    .header-container { padding: 12px 16px; }
+    .desktop-nav {
+        display: none;
+    }
+    .hamburger {
+        display: block;
+    }
+    .cta-button {
+        display: none;
+    }
+    .header-container {
+        padding: 12px 16px;
+    }
 
     .hamburger.open {
-        span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
-        span:nth-child(2) { opacity: 0; }
-        span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+        span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+        span:nth-child(2) {
+            opacity: 0;
+        }
+        span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
     }
 }
