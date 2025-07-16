@@ -1,2 +1,3 @@
 npm run bump-version
 git add src/assets/translations.json
+git commit --amend --no-edit

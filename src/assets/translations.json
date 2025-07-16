@@ -3,7 +3,7 @@
     "1": "This file contains translations for the application."
   },
   "metadata": {
-    "version": "00.00.04",
+    "version": "00.00.06",
     "lastUpdated": "2025-07-15T12:00:00Z"
   },
   "currentLanguage": "en",
@@ -31,10 +31,6 @@
     "create-account": {
       "de": "Konto erstellen",
       "en": "Create Account"
-    },
-    "welcome": {
-      "de": "Willkommen2",
-      "en": "Welcome3"
     }
   }
 }
