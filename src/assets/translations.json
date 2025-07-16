@@ -1,8 +1,6 @@
 {
   "_comments": {
-    "1": "This file contains translations for the application.",
-    "2": "2. @todo Install husky and count version of the software and make a metadata file for the Website itself.",
-    "3": "3. @todo Remove Comment 2 and 3 after implementing the metadata file."
+    "1": "This file contains translations for the application."
   },
   "metadata": {
     "version": "00.00.01",
