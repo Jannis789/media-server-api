@@ -1,40 +1,72 @@
-import { execSync } from 'child_process';
-import fs from 'fs';
-import path from 'path';
-import translations from '../../src/assets/translations.json' with { type: 'json' };
+import { execSync } from "child_process";
+import fs from "fs";
+import path from "path";
+import translations from "../../src/assets/translations.json" with { type: "json" };
 
-// Prüfe, ob translations.json geändert wurde
-const changedFiles = execSync('git diff --name-only HEAD~1 HEAD').toString().split('\n');
-if (!changedFiles.includes('src/assets/translations.json')) {
-  process.exit(0);
-}
+updateTranslationsVersion();
+updateMetadata();
 
-let version = translations.metadata.version || '00.00.00';
-translations.metadata.lastUpdated = new Date().toISOString();
+function updateTranslationsVersion() {
+  // Prüfe, ob translations.json geändert wurde
+  const changedFiles = execSync("git diff --name-only HEAD~1 HEAD")
+    .toString()
+    .split("\n");
+  if (!changedFiles.includes("src/assets/translations.json")) {
+    process.exit(0);
+  }
 
-let parts = version.split('.').map(Number);
+  let version = translations.metadata.version || "00.00.00";
+  translations.metadata.lastUpdated = new Date().toISOString();
 
-if (parts[2] < 99) {
-  parts[2]++;
-} else {
-  parts[2] = 0;
-  if (parts[1] < 99) {
-    parts[1]++;
+  let parts = version.split(".").map(Number);
+
+  if (parts[2] < 99) {
+    parts[2]++;
   } else {
-    parts[1] = 0;
-    if (parts[0] < 99) {
-      parts[0]++;
+    parts[2] = 0;
+    if (parts[1] < 99) {
+      parts[1]++;
+    } else {
+      parts[1] = 0;
+      if (parts[0] < 99) {
+        parts[0]++;
+      }
     }
   }
+
+  version = parts.map((n) => n.toString().padStart(2, "0")).join(".");
+
+  translations.metadata.version = version;
+
+  // Pfad zur JSON-Datei (relativ zum aktuellen Arbeitsverzeichnis)
+  const filePath = path.resolve("src/assets/translations.json");
+
+  fs.writeFileSync(filePath, JSON.stringify(translations, null, 2));
+
+  console.log(`✅ Version updated to ${version}`);
 }
 
-version = parts.map(n => n.toString().padStart(2, '0')).join('.');
+function updateMetadata() {
+  const metadataPath = "../../metadata.json";
+  const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
 
-translations.metadata.version = version;
+  // Aktuelle Commit-Hashes und Branch holen
+  const currentCommit = execSync("git rev-parse HEAD").toString().trim();
+  let lastCommit;
+  try {
+    lastCommit = execSync("git rev-parse HEAD~1").toString().trim();
+  } catch {
+    lastCommit = currentCommit;
+  }
+  const currentBranch = execSync("git rev-parse --abbrev-ref HEAD")
+    .toString()
+    .trim();
 
-// Pfad zur JSON-Datei (relativ zum aktuellen Arbeitsverzeichnis)
-const filePath = path.resolve('src/assets/translations.json');
+  // Felder aktualisieren
+  metadata.currentCommit = currentCommit;
+  metadata.lastCommit = lastCommit;
+  metadata.version = version;
+  metadata.currentBranch = currentBranch;
 
-fs.writeFileSync(filePath, JSON.stringify(translations, null, 2));
-
-console.log(`✅ Version updated to ${version}`);
+  fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 4));
+}

@@ -1,0 +1,27 @@
+{
+    "titel": "Media Server",
+    "beschreibung": "A metadata file for the media server project.",
+    "version": "00.00.01",
+    "currentCommit": "REPLACE_WITH_CURRENT_COMMIT_HASH",
+    "lastCommit": "REPLACE_WITH_LAST_COMMIT_HASH",
+    "currentBranch": "REPLACE_WITH_CURRENT_BRANCH_NAME",
+    "repository": "https://github.com/Jannis789/media-server",
+    "author": {
+        "name": "Jannis",
+        "email": "..."
+    },
+    "erstelltAm": "2024-06-11T00:00:00Z",
+    "letzteAktualisierung": "2024-06-11T00:00:00Z",
+    "lizenz": "...",
+    "tags": [
+        "media",
+        "server",
+        "metadata",
+        "json"
+    ],
+    "dependencies": [],
+    "homepage": "https://localhost:5173",
+    "bugs": {
+        "url": "https://github.com/Jannis789/media-server/issues"
+    }
+}
