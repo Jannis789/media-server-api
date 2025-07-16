@@ -3,17 +3,38 @@
     "1": "This file contains translations for the application."
   },
   "metadata": {
-    "version": "00.00.01",
+    "version": "00.00.02",
     "lastUpdated": "2025-07-15T12:00:00Z"
   },
   "currentLanguage": "en",
   "translations": {
-    "login": { "de": "Anmelden", "en": "Login" },
-    "username": { "de": "Benutzername", "en": "Username" },
-    "password": { "de": "Passwort", "en": "Password" },
-    "remember-me": { "de": "Angemeldet bleiben", "en": "Remember me" },
-    "password-lost": { "de": "Passwort vergessen?", "en": "Forgot Password?" },
-    "create-account": { "de": "Konto erstellen", "en": "Create Account" },
-    "welcome": { "de": "Willkommen2", "en": "Welcome2" }
+    "login": {
+      "de": "Anmelden",
+      "en": "Login"
+    },
+    "username": {
+      "de": "Benutzername",
+      "en": "Username"
+    },
+    "password": {
+      "de": "Passwort",
+      "en": "Password"
+    },
+    "remember-me": {
+      "de": "Angemeldet bleiben",
+      "en": "Remember me"
+    },
+    "password-lost": {
+      "de": "Passwort vergessen?",
+      "en": "Forgot Password?"
+    },
+    "create-account": {
+      "de": "Konto erstellen",
+      "en": "Create Account"
+    },
+    "welcome": {
+      "de": "Willkommen2",
+      "en": "Welcome2"
+    }
   }
 }
