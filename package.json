@@ -3,6 +3,9 @@
     "module": "index.ts",
     "type": "module",
     "private": true,
+    "scripts": {
+        "bump-version": "bun run .husky/scripts/bump-version.js"
+    },
     "devDependencies": {
         "@types/bun": "latest"
     },
@@ -13,6 +16,7 @@
         "@types/alpinejs": "^3.13.11",
         "alpinejs": "^3.14.9",
         "alpinejs-component": "^1.2.10",
+        "husky": "^9.1.7",
         "pinecone-router": "^7.2.0",
         "sass": "^1.89.2",
         "sass-migrator": "^2.3.3",
