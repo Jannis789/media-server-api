@@ -2,9 +2,9 @@
     "titel": "Media Server",
     "beschreibung": "A metadata file for the media server project.",
     "version": "00.00.10",
-    "currentCommit": "95bb1aa47e4e73d412e9c64bd98c5c749e73b4ab",
-    "lastCommit": "6dc856b5615e15b50920c3d22670ba78650b90f2",
-    "currentBranch": "master",
+    "currentCommit": "41c50275e8e83eb25fd99a32dd3061adc24c0fbd",
+    "lastCommit": "33fff2f0de6b95496a75296fb837261fe1f42324",
+    "currentBranch": "HEAD",
     "repository": "https://github.com/Jannis789/media-server",
     "author": {
         "name": "Jannis",
