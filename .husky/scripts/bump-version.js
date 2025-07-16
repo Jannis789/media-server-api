@@ -3,8 +3,8 @@ import fs from "fs";
 import path from "path";
 import translations from "../../src/assets/translations.json" with { type: "json" };
 
-updateTranslationsVersion();
-updateMetadata();
+const newVersion = updateTranslationsVersion();
+updateMetadata(newVersion);
 
 function updateTranslationsVersion() {
   // Prüfe, ob translations.json geändert wurde
@@ -12,7 +12,7 @@ function updateTranslationsVersion() {
     .toString()
     .split("\n");
   if (!changedFiles.includes("src/assets/translations.json")) {
-    return;
+    return null;
   }
 
   let version = translations.metadata.version || "00.00.00";
@@ -44,10 +44,11 @@ function updateTranslationsVersion() {
   fs.writeFileSync(filePath, JSON.stringify(translations, null, 2));
 
   console.log(`✅ Version updated to ${version}`);
+  return version;
 }
 
-function updateMetadata() {
-  const metadataPath = "../../metadata.json";
+function updateMetadata(version) {
+  const metadataPath = path.resolve("metadata.json");
   const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
 
   // Aktuelle Commit-Hashes und Branch holen
@@ -65,7 +66,9 @@ function updateMetadata() {
   // Felder aktualisieren
   metadata.currentCommit = currentCommit;
   metadata.lastCommit = lastCommit;
-  metadata.version = version;
+  if (version) {
+    metadata.version = version;
+  }
   metadata.currentBranch = currentBranch;
 
   fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 4));
