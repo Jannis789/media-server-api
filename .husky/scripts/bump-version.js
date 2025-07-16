@@ -12,7 +12,7 @@ function updateTranslationsVersion() {
     .toString()
     .split("\n");
   if (!changedFiles.includes("src/assets/translations.json")) {
-    process.exit(0);
+    return;
   }
 
   let version = translations.metadata.version || "00.00.00";
@@ -69,4 +69,6 @@ function updateMetadata() {
   metadata.currentBranch = currentBranch;
 
   fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 4));
+
+  console.log(`✅ Metadata updated with current commit ${currentCommit}`);
 }
