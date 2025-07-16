@@ -10,8 +10,7 @@ if (!changedFiles.includes('src/assets/translations.json')) {
 }
 
 let version = translations.metadata.version || '00.00.00';
-let lastUpdated = translations.metadata.lastUpdated;
-lastUpdated = new Date().toISOString().split('T')[0];
+translations.metadata.lastUpdated = new Date().toISOString().split('T')[0];
 
 let parts = version.split('.').map(Number);
 
