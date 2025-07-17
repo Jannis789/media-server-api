@@ -1,19 +1,14 @@
-import { db, sqlite } from '@db/index';
-import { todo } from '../drizzle/schema';
+import resolver from './routes/resolver';
 
 async function main() {
-  await sqlite.exec(`
-    CREATE TABLE IF NOT EXISTS todo (
-      id SERIAL PRIMARY KEY,
-      task TEXT,
-      done BOOLEAN DEFAULT false
-    );
-  `);
 
-  await db.insert(todo).values({ task: 'Test Eintrag' }).execute();
+  const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+    console.log(`Server läuft auf http://localhost:${port}`);
 
-  const result = await db.select().from(todo).execute();
-  console.log(result);
+    Bun.serve({
+        fetch: resolver.fetch,
+        port,
+    });
 }
 
 main();
