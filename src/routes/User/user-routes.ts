@@ -1,23 +1,16 @@
-import resolver from "../resolver";
-import { usersModel } from "../../../drizzle/config";
 import { Hono } from "hono";
+import userDB from "../../db/index";
+import { buildSchema } from 'drizzle-graphql';
+import { graphqlServer } from '@hono/graphql-server'
 
-export default function registerUserRoutes(resolver: Hono) {
-    resolver.post('/users/list', async (context) => {
-        try {
-            const { limit = 10, offset = 0 } = await context.req.json().catch(() => ({}));
-            console.log('Query-Parameter:', { limit, offset });
+const { schema } = buildSchema(userDB);
 
-            const result = await usersModel.findMany({
-                limit: Number(limit),
-                offset: Number(offset),
-            });
-
-            return context.json(result ?? []);
-        } catch (error) {
-            console.error('Fehler in /users/list:', error);
-            const errorMessage = (error instanceof Error) ? error.message : 'Internal Server Error';
-            return context.json({ error: errorMessage }, 500);
-        }
-    });
+export default function registerUserRoutes(resolver: Hono, basePath: string) {
+    resolver.use(
+      basePath,
+      graphqlServer({
+        schema,
+        graphiql: true,
+      })
+    )
 }

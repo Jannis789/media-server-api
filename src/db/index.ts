@@ -1,8 +1,9 @@
 import { drizzle } from 'drizzle-orm/pglite';
 import { PGlite } from '@electric-sql/pglite';
-import * as schema from '../../drizzle/schema';
+import * as schema from '../../drizzle/schema/User/export';
 
 const sqlite = new PGlite('./local.db');
 
-export const db = drizzle(sqlite, { schema });
-export { sqlite };
+const userDB = drizzle(sqlite, { schema });
+
+export default userDB;

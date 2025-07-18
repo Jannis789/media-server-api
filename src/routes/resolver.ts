@@ -3,6 +3,6 @@ import registerUserRoutes from './User/user-routes';
 
 const app = new Hono();
 
-registerUserRoutes(app);
+registerUserRoutes(app, '/Users/graphql');
 
 export default app;
