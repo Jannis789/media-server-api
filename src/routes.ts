@@ -1,8 +1,7 @@
+
 import type Elysia from "elysia";
-import { userHandler } from "./routes/User/user.route";
+import resolveUserRoutes from "./routes/User/user.route";
 
-function resolveRoutes(app: Elysia) {
-    app.get("/User/graphql", userHandler);
+export default async function resolveRoutes(app: Elysia) {
+    await resolveUserRoutes(app, "/User/graphql");
 }
-
-export default resolveRoutes;
