@@ -1,10 +1,9 @@
+
 import { Session } from "../entities/User/session.entity";
-import { User } from "../entities/User/user.entity";
 import { orm } from "../index";
-import { pbkdf2Sync, randomUUID } from "crypto";
-import PasswordOptions from "../utils/passwordOptions";
 import type { Elysia } from "elysia";
 import { MiddlewareRoutes } from "../routes";
+import { guest_only } from "./permissions";
 
 
 // Cookie-Parser minimal
@@ -20,75 +19,66 @@ function getCookie(req: Request, name: string): string | undefined {
 // Registriert die Middleware direkt auf das übergebene app
 export async function createLoginMiddleware(app: Elysia, loginRoutes: typeof MiddlewareRoutes) {
   app.onBeforeHandle(async (ctx) => {
-    console.log("Login-Middleware wird aufgerufen");
-    const em = orm.em.fork();
+    // Gast-Routen komplett ignorieren (keine Auth-Logik, keine 401)
+    if (Object.values(guest_only).includes(ctx.route as guest_only)) {
+      return;
+    }
 
-    // 1. Session prüfen
+    // Authentifizierungslogik für alle anderen Routen
+    const em = orm.em.fork();
     const sessionId = getCookie(ctx.request, "session_id");
+    let sessionValid = false;
     if (sessionId) {
       const session = await em.findOne(
         Session,
-        { uuid: sessionId }, // <-- uuid statt id
+        { uuid: sessionId },
         { populate: ["user"] }
       );
       if (session && (!session.expiresAt || session.expiresAt > new Date())) {
         // @ts-expect-error: dynamisch user an Context
         ctx.user = session.user;
+        sessionValid = true;
       }
     }
+    if (!sessionValid) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+  });
 
-
-    // 2. Login-Request abfangen
-    if (ctx.request.method === "POST" && ctx.route === loginRoutes.login) {
-      const { email, password } = await ctx.request.json();
-      const user = await em.findOne(User, { email }); // Suche per Email!
-      if (!user) {
-        return new Response("Unauthorized", { status: 401 });
+  // GraphQL-Login-Proxy: POST /login akzeptiert nur Login-Mutation
+  app.post("/login", async (ctx) => {
+    try {
+      const { query, variables } = await ctx.request.json();
+      // Nur Login-Mutation erlauben
+      if (!query || !/mutation\s+Login/.test(query)) {
+        return new Response("Only Login mutation allowed", { status: 400 });
       }
-      const [salt, hash] = user.password_hash.split(":");
-      if (!salt || !hash || typeof password !== "string") {
-        return new Response("Unauthorized", { status: 401 });
+      // Dynamisch UserResolver importieren
+      const { UserResolver } = await import("../resolvers/User/user.resolver");
+      const resolver = new UserResolver(orm.em.fork());
+      const sessionToken = await resolver.login(variables.email, variables.password);
+      console.log(sessionToken);
+      if (!sessionToken) {
+        return new Response(JSON.stringify({ errors: [{ message: "Login fehlgeschlagen." }] }), {
+          status: 401,
+          headers: { "Content-Type": "application/json" },
+        });
       }
-      const inputHash = pbkdf2Sync(
-        password,
-        salt,
-        PasswordOptions.ITERATIONS,
-        PasswordOptions.HASH_LENGTH,
-        PasswordOptions.DIGEST
-      ).toString("hex");
-      if (inputHash !== hash) {
-        return new Response("Unauthorized", { status: 401 });
-      }
-      // Session anlegen
-      const session = new Session();
-      session.uuid = randomUUID(); // <-- uuid statt id
-      session.user = user;
-      await em.persistAndFlush(session);
+      // Session-Cookie setzen
       return new Response(
-        JSON.stringify({ sessionId: session.uuid }),
+        JSON.stringify({ data: { login: sessionToken } }),
         {
           status: 200,
           headers: {
-            "Set-Cookie": `session_id=${session.uuid}; HttpOnly; Path=/`,
+            "Set-Cookie": `session_id=${sessionToken}; HttpOnly; Path=/` ,
             "Content-Type": "application/json"
           },
         }
       );
-    }
-
-    // 3. Logout-Request abfangen
-    if (ctx.request.method === "POST" && ctx.route === loginRoutes.logout) {
-      if (sessionId) {
-        const session = await em.findOne(Session, { uuid: sessionId }); // <-- uuid statt id
-        if (session) {
-          await em.removeAndFlush(session);
-        }
-      }
-      return new Response("OK", {
-        status: 200,
-        headers: {
-          "Set-Cookie": "session_id=; HttpOnly; Path=/; Max-Age=0",
-        },
+    } catch (e) {
+      return new Response(JSON.stringify({ errors: [{ message: "Malformed request" }] }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
       });
     }
   });
