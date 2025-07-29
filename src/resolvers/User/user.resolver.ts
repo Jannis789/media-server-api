@@ -1,6 +1,6 @@
 import { Resolver, Mutation, Arg, Query } from "type-graphql";
 import { EntityManager } from "@mikro-orm/core";
-import { User } from "../../entities/User/user.schema";
+import { User } from "../../entities/User/user.entity";
 
 @Resolver(() => User)
 export class UserResolver {

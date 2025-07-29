@@ -6,9 +6,9 @@ import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 const config: Options = {
   driver: SqliteDriver,
   dbName: 'sqlite.db',
-  entities: ['dist/entities'],
-  entitiesTs: ['src/entities'],
-    migrations: {
+  entities: ['./dist/entities/**/*.entity.js'],
+  entitiesTs: ['./src/entities/**/*.entity.ts'],
+  migrations: {
     path: 'migrations',
     pathTs: 'migrations',
   },
