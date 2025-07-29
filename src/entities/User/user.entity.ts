@@ -15,14 +15,8 @@ export class User {
   @Field(() => String)
   @Property({ unique: true })
   email!: string;
-
-
-    @Field(() => Boolean)
-    @Property({ default: true })
-    is_active: boolean = true;
-
-    @Property()
-    password_hash!: string;
+  @Property()
+  password_hash!: string;
 
   @Field(() => Date)
   @Property({ onCreate: () => new Date() })
@@ -31,4 +25,8 @@ export class User {
   @Field(() => Date)
   @Property({ onUpdate: () => new Date(), onCreate: () => new Date() })
   updated_at: Date = new Date();
+
+  @Field(() => Boolean)
+  @Property({ default: true })
+  is_active: boolean = true;
 }

@@ -33,17 +33,6 @@
           "length": null,
           "mappedType": "text"
         },
-        "is_active": {
-          "name": "is_active",
-          "type": "integer",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": null,
-          "default": "true",
-          "mappedType": "integer"
-        },
         "password_hash": {
           "name": "password_hash",
           "type": "text",
@@ -73,6 +62,17 @@
           "nullable": false,
           "length": null,
           "mappedType": "datetime"
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": null,
+          "default": "true",
+          "mappedType": "integer"
         }
       },
       "name": "user",

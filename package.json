@@ -31,8 +31,8 @@
   },
   "scripts": {
     "start": "bun run src/index.ts",
-    "migration:migrate": "bun run mikro-orm-esm migration:migrate",
-    "migration:up": "bun run mikro-orm-esm migration:up"
+    "migration:create": "bun run mikro-orm-esm migration:create --config=mikro-orm.config.ts",
+    "migration:up": "bun run mikro-orm-esm migration:up --config=mikro-orm.config.ts"
   },
   "mikro-orm": {
     "configPaths": [
