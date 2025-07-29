@@ -16,12 +16,12 @@ export class SessionResolver {
 
   @Query(() => Session, { nullable: true })
   async sessionById(@Arg("sessionId") sessionId: string): Promise<Session | null> {
-    return this.em.findOne(Session, { id: sessionId }, { populate: ['user'] });
+    return this.em.findOne(Session, { uuid: sessionId }, { populate: ['user'] });
   }
 
   @Mutation(() => Boolean)
-  async deleteSession(@Arg("id") id: string): Promise<boolean> {
-    const session = await this.em.findOne(Session, { id });
+  async deleteSession(@Arg("uuid") uuid: string): Promise<boolean> {
+    const session = await this.em.findOne(Session, { uuid });
     if (!session) return false;
     await this.em.removeAndFlush(session);
     return true;

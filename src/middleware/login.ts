@@ -19,7 +19,8 @@ function getCookie(req: Request, name: string): string | undefined {
 
 // Registriert die Middleware direkt auf das übergebene app
 export async function createLoginMiddleware(app: Elysia, loginRoutes: typeof MiddlewareRoutes) {
-  app.onRequest(async (ctx) => {
+  app.onBeforeHandle(async (ctx) => {
+    console.log("Login-Middleware wird aufgerufen");
     const em = orm.em.fork();
 
     // 1. Session prüfen
@@ -27,7 +28,7 @@ export async function createLoginMiddleware(app: Elysia, loginRoutes: typeof Mid
     if (sessionId) {
       const session = await em.findOne(
         Session,
-        { id: sessionId },
+        { uuid: sessionId }, // <-- uuid statt id
         { populate: ["user"] }
       );
       if (session && (!session.expiresAt || session.expiresAt > new Date())) {
@@ -36,8 +37,9 @@ export async function createLoginMiddleware(app: Elysia, loginRoutes: typeof Mid
       }
     }
 
+
     // 2. Login-Request abfangen
-    if (ctx.request.method === "POST" && ctx.request.url === loginRoutes.login) {
+    if (ctx.request.method === "POST" && ctx.route === loginRoutes.login) {
       const { email, password } = await ctx.request.json();
       const user = await em.findOne(User, { email }); // Suche per Email!
       if (!user) {
@@ -59,21 +61,25 @@ export async function createLoginMiddleware(app: Elysia, loginRoutes: typeof Mid
       }
       // Session anlegen
       const session = new Session();
-      session.id = randomUUID();
+      session.uuid = randomUUID(); // <-- uuid statt id
       session.user = user;
       await em.persistAndFlush(session);
-      return new Response("OK", {
-        status: 200,
-        headers: {
-          "Set-Cookie": `session_id=${session.id}; HttpOnly; Path=/`,
-        },
-      });
+      return new Response(
+        JSON.stringify({ sessionId: session.uuid }),
+        {
+          status: 200,
+          headers: {
+            "Set-Cookie": `session_id=${session.uuid}; HttpOnly; Path=/`,
+            "Content-Type": "application/json"
+          },
+        }
+      );
     }
 
     // 3. Logout-Request abfangen
-    if (ctx.request.method === "POST" && ctx.request.url === loginRoutes.logout) {
+    if (ctx.request.method === "POST" && ctx.route === loginRoutes.logout) {
       if (sessionId) {
-        const session = await em.findOne(Session, { id: sessionId });
+        const session = await em.findOne(Session, { uuid: sessionId }); // <-- uuid statt id
         if (session) {
           await em.removeAndFlush(session);
         }

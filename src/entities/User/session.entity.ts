@@ -1,13 +1,13 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from "@mikro-orm/core";
-import { User } from "./user.entity";
-import { ObjectType, Field, Int } from "type-graphql";
+import { User } from "./user.entity.ts";
+import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
 @Entity()
 export class Session {
-  @Field(() => Int)
+  @Field(() => String)
   @PrimaryKey()
-  id!: string;
+  uuid!: string;
 
   @Field(() => User)
   @ManyToOne(() => User)
