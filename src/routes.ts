@@ -9,8 +9,8 @@ export enum MiddlewareRoutes {
 export default async function resolveRoutes(app: Elysia) {
     await createLoginMiddleware(app, {login: MiddlewareRoutes.login, logout: MiddlewareRoutes.logout});
 
-    app.post("/login", () => {});
-    app.post("/logout", () => {});
+    app.post(MiddlewareRoutes.login, () => {});
+    app.post(MiddlewareRoutes.logout, () => {});
 
     await resolveUserRoutes(app, "/User/graphql");
 }
