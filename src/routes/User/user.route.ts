@@ -1,11 +1,12 @@
 import { yoga } from "@elysiajs/graphql-yoga";
 import { buildSchema } from "type-graphql";
 import { UserResolver } from "../../resolvers/User/user.resolver";
-import { MikroORM } from "@mikro-orm/core";
 import type Elysia from "elysia";
+import { orm } from "../../index";
 
 async function resolveUserRoutes(app: Elysia, graphqlEndpoint: string) {
-    const orm = await MikroORM.init();
+    console.log("resolveUserRoutes wird aufgerufen mit:", graphqlEndpoint);
+
     const em = orm.em.fork();
     const schema = await buildSchema({
         resolvers: [UserResolver],
@@ -14,8 +15,8 @@ async function resolveUserRoutes(app: Elysia, graphqlEndpoint: string) {
     });
     app.use(
         yoga({
-            schema,
-            graphqlEndpoint
+            schema: schema,
+            path: graphqlEndpoint // <-- geändert von graphqlEndpoint zu path
         })
     );
 }

@@ -11,7 +11,13 @@ export class UserResolver {
 
     @Query(() => [User])
     async users() {
-        return this.em.find(User, {});
+        try {
+            const result = await this.em.find(User, {});
+            return result;
+        } catch (e) {
+            console.info("Es konnte kein Benutzer gefunden werden:", e);
+            return [];
+        }
     }
 
     @Mutation(() => User)
