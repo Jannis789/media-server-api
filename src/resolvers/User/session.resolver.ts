@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Arg } from "type-graphql";
 import { EntityManager } from "@mikro-orm/core";
 import { Session } from "../../entities/User/session.entity";
 
+
 @Resolver(() => Session)
 export class SessionResolver {
   private em: EntityManager;
@@ -26,4 +27,10 @@ export class SessionResolver {
     await this.em.removeAndFlush(session);
     return true;
   }
+
+  async findSessionByUUID(uuid: string): Promise<Session | null> {
+    return this.em.findOne(Session, { uuid }, { populate: ['user'] });
+  }
 }
+
+export default SessionResolver;

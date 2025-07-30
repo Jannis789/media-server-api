@@ -1,63 +1,60 @@
-
-import { Session } from "../entities/User/session.entity";
-import { orm } from "../index";
 import type { Elysia } from "elysia";
-import { MiddlewareRoutes } from "../routes";
-import { guest_only } from "./permissions";
+import { guest_only } from "./permissions.ts";
+import { CookieReader } from "../utils/utils";
+import em from "../utils/EntityManager.ts";
+import UserResolver from "../resolvers/User/user.resolver";
+import SessionResolver from "../resolvers/User/session.resolver";
+import type { MiddlewareRoutes } from "../routes";
 
+// @todo -> wenn beim Login Tokens mitgegeben werden, Token refreshen
+// @todo -> nicht mit $presist speichern, sondern klassisch als Cookie setzen
 
-// Cookie-Parser minimal
-function getCookie(req: Request, name: string): string | undefined {
-  const cookie = req.headers.get("cookie");
-  if (!cookie) return undefined;
-  const match = cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-  return match && typeof match[1] === "string"
-    ? decodeURIComponent(match[1])
-    : undefined;
-}
 
 // Registriert die Middleware direkt auf das übergebene app
 export async function createLoginMiddleware(app: Elysia, loginRoutes: typeof MiddlewareRoutes) {
+
+  const userResolver = new UserResolver(em.get());
+  const sessionResolver = new SessionResolver(em.get());
+
   app.onBeforeHandle(async (ctx) => {
-    // Gast-Routen komplett ignorieren (keine Auth-Logik, keine 401)
-    if (Object.values(guest_only).includes(ctx.route as guest_only)) {
+    // Gast-Routen komplett ignorieren, z.B. /login
+    // Prüfen, ob die aktuelle Route eine Gast-Route ist
+    if (Object.values(loginRoutes).includes(ctx.route)) {
       return;
     }
 
-    // Authentifizierungslogik für alle anderen Routen
-    const em = orm.em.fork();
-    const sessionId = getCookie(ctx.request, "session_id");
-    let sessionValid = false;
-    if (sessionId) {
-      const session = await em.findOne(
-        Session,
-        { uuid: sessionId },
-        { populate: ["user"] }
-      );
-      if (session && (!session.expiresAt || session.expiresAt > new Date())) {
-        // @ts-expect-error: dynamisch user an Context
-        ctx.user = session.user;
-        sessionValid = true;
-      }
-    }
-    if (!sessionValid) {
+    // Authorization-Logic for all other routes
+    const sharedCookie = ctx.request.headers.get("cookie");
+    const cookieReader = new CookieReader(sharedCookie);
+    const sessionId = cookieReader.get("session_id");
+
+    if (!sessionId) {
       return new Response("Unauthorized", { status: 401 });
     }
+
+    const session = await sessionResolver.findSessionByUUID(sessionId);
+
+    if (!session) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+
+    if (session.expiresAt && session.expiresAt <= new Date()) {
+      const expiredAt = session.expiresAt.toISOString();
+      return new Response(`Unauthorized, Session is expired on ${expiredAt}`, { status: 401 });
+    }
+
+    // Every following request has access to the User Entity
+    (ctx as typeof ctx & { user: typeof session.user }).user = session.user;
   });
 
   // GraphQL-Login-Proxy: POST /login akzeptiert nur Login-Mutation
-  app.post("/login", async (ctx) => {
+  app.post(loginRoutes.login, async (ctx) => {
     try {
-      const { query, variables } = await ctx.request.json();
-      // Nur Login-Mutation erlauben
-      if (!query || !/mutation\s+Login/.test(query)) {
-        return new Response("Only Login mutation allowed", { status: 400 });
-      }
+      const { variables } = await ctx.request.json();
+      
       // Dynamisch UserResolver importieren
-      const { UserResolver } = await import("../resolvers/User/user.resolver");
-      const resolver = new UserResolver(orm.em.fork());
-      const sessionToken = await resolver.login(variables.email, variables.password);
-      console.log(sessionToken);
+      const sessionToken = await userResolver.login(variables.email, variables.password);
+
       if (!sessionToken) {
         return new Response(JSON.stringify({ errors: [{ message: "Login fehlgeschlagen." }] }), {
           status: 401,

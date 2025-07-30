@@ -65,3 +65,5 @@ export class UserResolver {
         return session.uuid;
     }
 }
+
+export default UserResolver;
