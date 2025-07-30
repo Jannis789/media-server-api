@@ -1,6 +1,5 @@
 import type { Elysia } from "elysia";
-import { guest_only } from "./permissions.ts";
-import { CookieReader } from "../utils/utils";
+import { CookieReader } from "../utils/CookieReader.ts";
 import em from "../utils/EntityManager.ts";
 import UserResolver from "../resolvers/User/user.resolver";
 import SessionResolver from "../resolvers/User/session.resolver";
