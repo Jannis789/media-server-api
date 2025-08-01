@@ -63,16 +63,6 @@
     },
     {
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "unsigned": false,
-          "autoincrement": true,
-          "primary": true,
-          "nullable": false,
-          "length": null,
-          "mappedType": "integer"
-        },
         "key": {
           "name": "key",
           "type": "text",
@@ -102,6 +92,26 @@
           "nullable": false,
           "length": null,
           "mappedType": "text"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": null,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": null,
+          "mappedType": "datetime"
         }
       },
       "name": "translation",
@@ -119,7 +129,7 @@
         {
           "keyName": "primary",
           "columnNames": [
-            "id"
+            "key"
           ],
           "composite": false,
           "constraint": true,

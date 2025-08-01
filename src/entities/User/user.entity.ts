@@ -6,27 +6,27 @@ import { ObjectType, Field, Int } from "type-graphql";
 export class User {
   @Field(() => Int)
   @PrimaryKey()
-  id!: number;
+      id!: number;
 
   @Field(() => String)
   @Property()
-  username!: string;
+      username!: string;
 
   @Field(() => String)
   @Property({ unique: true })
-  email!: string;
+      email!: string;
   @Property()
-  password_hash!: string;
+      password_hash!: string;
 
   @Field(() => Date)
   @Property({ onCreate: () => new Date() })
-  created_at: Date = new Date();
+      created_at: Date = new Date();
 
   @Field(() => Date)
   @Property({ onUpdate: () => new Date(), onCreate: () => new Date() })
-  updated_at: Date = new Date();
+      updated_at: Date = new Date();
 
   @Field(() => Boolean)
   @Property({ default: true })
-  is_active: boolean = true;
+      is_active: boolean = true;
 }
