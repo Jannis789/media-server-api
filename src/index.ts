@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { Elysia } from "elysia";
 import { MikroORM } from "@mikro-orm/core";
 import mikroOrmConfig from "../mikro-orm.config.ts";
-import resolveRoutes from "./routes.ts";
+import resolveRoutes from "./routes/routes.ts";
 
 const orm = await MikroORM.init(mikroOrmConfig);
 await orm.getMigrator().up(); // Migrationen ausführen

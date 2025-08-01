@@ -1,17 +1,17 @@
 import { yoga } from "@elysiajs/graphql-yoga";
 import { buildSchema } from "type-graphql";
-import { UserResolver } from "../../resolvers/User/user.resolver";
+import { TranslationResolver } from "../../resolvers/Translation/translation.resolver";
 import type Elysia from "elysia";
 import { orm } from "../../index";
 
-async function resolveUserRoutes(app: Elysia, graphqlEndpoint: string) {
+async function resolveTranslationRoutes(app: Elysia, graphqlEndpoint: string) {
     console.log("resolveUserRoutes wird aufgerufen mit:", graphqlEndpoint);
 
     const em = orm.em.fork();
     const schema = await buildSchema({
-        resolvers: [UserResolver],
+        resolvers: [TranslationResolver],
         validate: false,
-        container: { get: (cls: any) => new UserResolver(em) }
+        container: { get: (cls: any) => new TranslationResolver(em) }
     });
     app.use(
         yoga({
@@ -21,4 +21,4 @@ async function resolveUserRoutes(app: Elysia, graphqlEndpoint: string) {
     );
 }
 
-export default resolveUserRoutes;
+export default resolveTranslationRoutes;

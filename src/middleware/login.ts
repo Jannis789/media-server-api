@@ -3,7 +3,8 @@ import { CookieReader } from "../utils/CookieReader.ts";
 import em from "../utils/EntityManager.ts";
 import UserResolver from "../resolvers/User/user.resolver";
 import SessionResolver from "../resolvers/User/session.resolver";
-import type { MiddlewareRoutes } from "../routes";
+import type { MiddlewareRoutes } from "../routes/routes.ts";
+import { guest_only } from "./permissions.ts";
 
 // @todo -> wenn beim Login Tokens mitgegeben werden, Token refreshen
 // @todo -> nicht mit $presist speichern, sondern klassisch als Cookie setzen
@@ -18,7 +19,7 @@ export async function createLoginMiddleware(app: Elysia, loginRoutes: typeof Mid
   app.onBeforeHandle(async (ctx) => {
     // Gast-Routen komplett ignorieren, z.B. /login
     // Prüfen, ob die aktuelle Route eine Gast-Route ist
-    if (Object.values(loginRoutes).includes(ctx.route)) {
+    if (Object.values(guest_only).includes(ctx.route)) {
       return;
     }
 
