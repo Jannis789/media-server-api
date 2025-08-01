@@ -1,40 +1,43 @@
-import type { FlatESLintConfig } from "eslint-define-config";
-import js from "@eslint/js";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import importPlugin from "eslint-plugin-import";
 import tsParser from "@typescript-eslint/parser";
 import globals from "globals";
+import prettierPlugin from "eslint-plugin-prettier";
+import tsEslint from "typescript-eslint";
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
-const config: FlatESLintConfig = {
-  ...js.configs.recommended,
-  files: ["src/**/*.{ts,tsx}"],
-  plugins: {
-    "@typescript-eslint": tsPlugin as any,
-    import: importPlugin as any,
-  },
-  languageOptions: {
-    parser: tsParser,
-    parserOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
-      project: "./tsconfig.json",
+const config = tsEslint.config([
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    plugins: {
+      import: importPlugin,
+      prettier: prettierPlugin,
     },
-    globals: {
-      ...globals.browser,
-    },
-  },
-  rules: {
-    ...js.configs.recommended.rules,
-    ...tsPlugin.configs?.recommended?.rules,
-    "import/extensions": [
-      "error",
-      {
-        ts: "always",
-        js: "never",
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        project: "./tsconfig.json",
       },
-    ],
-    "indent": ["error", 4]
+      globals: {
+        ...globals.browser,
+      },
+    },
+    rules: {
+      ...prettierRecommended.rules,
+      ...tsPlugin.configs?.recommended?.rules,
+      "import/extensions": [
+        "error",
+        {
+          ts: "always",
+          js: "never",
+        },
+      ],
+      "indent": ["error", 4, { "ignoredNodes": ["PropertyDefinition"] }],
+    },
   },
-};
+]);
+
 
 export default config;

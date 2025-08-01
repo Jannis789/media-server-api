@@ -4,6 +4,6 @@
     "editor.detectIndentation": false,
     "eslint.format.enable": true,
     "[typescript]": {
-        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
 }

@@ -4,10 +4,12 @@ class CookieReader {
     constructor(cookieHeader: string | null) {
         this.cookies = cookieHeader
             ? Object.fromEntries(
-                  cookieHeader.split(';').map(cookie => {
-                      const [key, value] = cookie.split('=').map(part => part.trim());
+                  cookieHeader.split(';').map((cookie) => {
+                      const [key, value] = cookie
+                          .split('=')
+                          .map((part) => part.trim());
                       return [key, value ? decodeURIComponent(value) : ''];
-                  })
+                  }),
               )
             : {};
     }

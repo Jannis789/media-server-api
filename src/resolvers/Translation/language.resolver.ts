@@ -1,7 +1,6 @@
-import { Resolver, Query } from "type-graphql";
-import { EntityManager } from "@mikro-orm/core";
-import { Language } from "../../entities/Translation/language.entity.ts";
-
+import { Resolver, Query } from 'type-graphql';
+import { EntityManager } from '@mikro-orm/core';
+import { Language } from '../../entities/Translation/language.entity.ts';
 
 @Resolver(() => Language)
 export class LanguageResolver {
