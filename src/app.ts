@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import MikroOrmConfig from './config/mikro-orm.config';
+import cors from "@koa/cors";
 import { MikroORM } from '@mikro-orm/core';
 import { useKoaServer } from 'routing-controllers';
 import { ValidationErrorHandler } from './middlewares/ValidateErrorHandler';
@@ -30,6 +31,10 @@ export async function createApp() {
     classTransformer: true,
     defaultErrorHandler: false,
   });
+
+  app.use(cors({
+    origin: '*',
+  }));
 
   return app;
 }
