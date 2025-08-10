@@ -1,0 +1,38 @@
+{
+  "name": "media-server-v3",
+  "private": true,
+  "scripts": {
+    "dev": "npm run src/server.ts",
+    "mikro-orm": "mikro-orm",
+    "migration:create": "mikro-orm-esm migration:create --config src/config/mikro-orm.config.ts",
+    "migration:up": "mikro-orm migration:up --config src/config/mikro-orm.config.ts",
+    "migration:down": "mikro-orm migration:down --config src/config/mikro-orm.config.ts",
+    "migration:pending": "mikro-orm migration:pending --config src/config/mikro-orm.config.ts",
+    "migration:list": "mikro-orm migration:list --config src/config/mikro-orm.config.ts"
+  },
+  "dependencies": {
+    "@mikro-orm/cli": "^6.4.16",
+    "@mikro-orm/core": "^6.4.16",
+    "@mikro-orm/migrations": "^6.4.16",
+    "@mikro-orm/reflection": "^6.4.16",
+    "@mikro-orm/sql-highlighter": "^1.0.1",
+    "@mikro-orm/sqlite": "^6.4.16",
+    "@types/bun": "^1.2.19",
+    "@types/koa": "^3.0.0",
+    "class-validator": "^0.14.2",
+    "koa": "^3.0.1",
+    "routing-controllers": "^0.11.3",
+    "sqlite": "^5.1.1",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.1",
+    "typescript": "^5.1.6"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "mikro-orm": {
+    "alwaysAllowTs": true  
+  }
+}
