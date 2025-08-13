@@ -1,5 +1,4 @@
 import { IsEmail, IsOptional } from "class-validator";
-import { IsValidPassword } from "../decorators";
 
 class LoginUserBody {
     @IsEmail()

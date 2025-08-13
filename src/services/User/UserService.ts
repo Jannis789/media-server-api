@@ -1,7 +1,7 @@
 import { EntityManager } from "@mikro-orm/core";
 import { User } from "../../db/entities";
 import { encryptPassword, verifyPassword } from "../../utils/LoginUtils";
-import { UpdateUserBody } from "../../validation/DTO/update.user.dto";
+import { UpdateUserBody } from "../../validation/DTO/user.dto";
 import { SessionService } from "./SessionService";
 import { DateUtility } from "../../utils/DateUtility";
 import { Session } from "../../db/entities/User/session.entity";

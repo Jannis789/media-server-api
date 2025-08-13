@@ -4,7 +4,7 @@ import cors from "@koa/cors";
 import { MikroORM } from '@mikro-orm/core';
 import { useKoaServer } from 'routing-controllers';
 import { ValidationErrorHandler } from './middlewares/ValidateErrorHandler';
-import { RoleService } from './services/auth/RoleService';
+import { RoleService } from './services/User/RoleService';
 import type { EntityManager } from '@mikro-orm/sqlite';
 
 declare global {

@@ -1,11 +1,10 @@
 import { Body, Controller, Post, Res, UseBefore } from "routing-controllers";
-import { CreateUserBody } from "../../validation/DTO/create.user.dto";
-import { UserService } from "../../services/auth/UserService";
-import { RoleService } from "../../services/auth/RoleService";
-import { SessionService } from "../../services/auth/SessionService";
-import type { Response } from "koa";
+import { CreateUserBody } from "../../validation/DTO/user.dto";
+import { UserService } from "../../services/User/UserService";
+import { RoleService } from "../../services/User/RoleService";
+import { SessionService } from "../../services/User/SessionService";
 import { LoginUserBody } from "../../validation/DTO/login.user.dto";
-
+import type { Response } from "koa";
 
 @Controller("/User")
 class UserController {
@@ -15,7 +14,7 @@ class UserController {
     private roleService: RoleService = new RoleService(em);
 
     @Post("/register")
-    async createUser(@Body() body: CreateUserBody, @Res() res: Response) {
+    async createUser(@Body() body: CreateUserBody) {
         const user = await this.userService.createUser(body.username, body.email, body.password);
         const session = await this.sessionService.createSession(user);
         const role = await this.roleService.createRole(user, "user");

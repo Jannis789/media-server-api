@@ -1,8 +1,6 @@
 import { EntityManager } from "@mikro-orm/sqlite";
 import { Session, User } from "../../db/entities";
 import { DateUtility } from "../../utils/DateUtility";
-import { IsString } from "class-validator";
-import { UUIDParam } from "../../validation/DTO/helper.dto";
 
 export class SessionService {
     private em: EntityManager;

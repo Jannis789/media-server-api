@@ -5,8 +5,8 @@ import { Role } from "../index";
 @Entity()
 class User {
   @PrimaryKey()
-  @IsInt({ message: "ID muss eine ganze Zahl sein" })
-  @Min(1, { message: "ID muss mindestens 1 sein" })
+  @IsInt()
+  @Min(1)
   id!: number;
 
   @Property({ unique: true })
@@ -18,6 +18,7 @@ class User {
 
   @Property()
   password_hash!: string;
+
   @Property({
     type: "datetime",
   })

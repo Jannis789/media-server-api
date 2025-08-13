@@ -9,13 +9,4 @@ class UUIDParam{
   }
 }
 
-class DateParam {
-    
-    @IsDate()
-    date: Date;
-    constructor(date: Date) {
-        this.date = date;
-    }
-}
-
-export { UUIDParam, DateParam };
+export { UUIDParam };

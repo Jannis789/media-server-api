@@ -6,17 +6,12 @@ import {
   ValidatorConstraintInterface,
   isString,
 } from "class-validator";
-import { UserService } from "../../services/auth/UserService";
 
 @ValidatorConstraint({ async: true })
 class IsValidUsernameConstraint implements ValidatorConstraintInterface {
-  async validate(value: unknown): Promise<boolean> {
-    if (!isString(value)) return false;
-    // Username-Format prüfen (z.B. mindestens 3 Zeichen, nur Buchstaben/Zahlen)
+  async validate(value: string): Promise<boolean> {
     if (!/^[a-zA-Z0-9_]{3,32}$/.test(value)) return false;
-    // Unique-Check
-    const userService = new UserService(global.em);
-    return await userService.isUsernameUnique(value);
+    return true;
   }
 
   defaultMessage(args: ValidationArguments): string {
