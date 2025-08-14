@@ -8,4 +8,8 @@ interface GetTranslationsResponse {
     }[];
 }
 
-export { GetTranslationsResponse };
+enum TranslationPath {
+    GetTranslations = "/Translation/:language_code",
+}
+
+export { GetTranslationsResponse, TranslationPath };

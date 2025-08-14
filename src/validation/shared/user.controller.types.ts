@@ -18,4 +18,9 @@ interface LoginUserResponse {
     };
 }
 
-export { CreateUserResponse, LoginUserResponse };
+enum UserPath {
+    Registration = "/User/registration",
+    Login = "/User/login",
+}
+
+export { CreateUserResponse, LoginUserResponse, UserPath };
