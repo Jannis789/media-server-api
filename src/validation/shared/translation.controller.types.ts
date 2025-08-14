@@ -1,3 +1,4 @@
+
 // POST -> /Translation/:language_code
 interface GetTranslationsResponse {
     status: number;
