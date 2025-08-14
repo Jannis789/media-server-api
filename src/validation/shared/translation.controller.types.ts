@@ -9,7 +9,7 @@ interface GetTranslationsResponse {
 }
 
 enum TranslationPath {
-    GetTranslations = "/Translation/:language_code",
+    GetTranslations = "/Translation/",
 }
 
 export { GetTranslationsResponse, TranslationPath };
