@@ -1,7 +1,7 @@
 import { Entity } from "@mikro-orm/core";
 import { IsOptional, IsString, Length } from "class-validator";
-import { IsAviable } from "../decorators/IsAviable";
 import { Language } from "../../db/entities";
+import { IsAviable } from "../decorators";
 
 @Entity()
 export class GetLanguageBody {

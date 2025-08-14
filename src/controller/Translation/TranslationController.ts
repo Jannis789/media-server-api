@@ -1,21 +1,22 @@
-import { EntityManager } from "@mikro-orm/sqlite";
-import { Body, Controller, Get, Param, Post } from "routing-controllers";
+import { Body, Controller, Post } from "routing-controllers";
 import { TranslationService } from "../../services/Translation/TranslationService";
 import { LanguageService } from "../../services/Translation/LanguageService";
-import { SinceDto } from "../../validation/DTO/translation.dto";
+import { LanguageCodeParam, SinceDto } from "../../validation/DTO/translation.dto";
+import { ValidParam } from "../../validation/decorators/ValidParam";
+import { GetTranslationsResponse } from "../../validation/shared/translation.controller.types";
 
 @Controller("/Translation")
 export class TranslationController {
-    private em: EntityManager = em
     private translationService: TranslationService = new TranslationService(em);
     private languageService: LanguageService = new LanguageService(em);
 
-
-
     @Post("/:language_code")
-    async getTranslations(@Param("language_code") language_code: string, @Body() body: SinceDto) {
+    async getTranslations(
+        @ValidParam(LanguageCodeParam, "language_code") language_code: string, 
+        @Body() body: SinceDto
+    ): Promise<GetTranslationsResponse> {
         const language = await this.languageService.getLanguage({code: language_code});
-        const translations = await this.translationService.getNewestChanges(language!.code, body.since);
+        const translations = this.translationService.getNewestChanges(language!.code, body.since);
 
         return {
             status: 200,

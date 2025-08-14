@@ -1,10 +1,11 @@
-import { Body, Controller, Post, Res, UseBefore } from "routing-controllers";
+import { Body, Controller, Post, Res } from "routing-controllers";
 import { CreateUserBody } from "../../validation/DTO/user.dto";
 import { UserService } from "../../services/User/UserService";
 import { RoleService } from "../../services/User/RoleService";
 import { SessionService } from "../../services/User/SessionService";
 import { LoginUserBody } from "../../validation/DTO/login.user.dto";
 import type { Response } from "koa";
+import { CreateUserResponse, LoginUserResponse } from "../../validation/shared/user.controller.types";
 
 @Controller("/User")
 class UserController {
@@ -14,7 +15,7 @@ class UserController {
     private roleService: RoleService = new RoleService(em);
 
     @Post("/register")
-    async createUser(@Body() body: CreateUserBody) {
+    async createUser(@Body() body: CreateUserBody): Promise<CreateUserResponse> {
         const user = await this.userService.createUser(body.username, body.email, body.password);
         const session = await this.sessionService.createSession(user);
         const role = await this.roleService.createRole(user, "user");
@@ -31,19 +32,15 @@ class UserController {
     }
 
     @Post("/login")
-    async loginUser(@Body() body: LoginUserBody, @Res() res: Response) {
+    async loginUser(@Body() body: LoginUserBody, @Res() res: Response): Promise<LoginUserResponse> {
         const session = await this.userService.login(body.email, body.password, body.remember);
-        if (!session) {
-            res.status = 401;
-            return { status: 401, message: "Invalid email or password" };
-        }
 
         return {
             status: 200,
             message: "Login successful",
             data: {
-                session: session.uuid,
-                expiresAt: session.expiresAt,
+                session: session!.uuid,
+                expiresAt: session!.expiresAt,
             }
         };
     }

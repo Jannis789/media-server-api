@@ -1,6 +1,7 @@
 import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
 import { Language } from "../../db/entities";
 import { Type } from "class-transformer";
+import { IsAviable } from "../decorators";
 
 
 class GetTranslationBody {
@@ -53,4 +54,10 @@ class SinceDto {
     }
 }
 
-export { GetTranslationBody, UpdateTranslationBody, SinceDto };
+class LanguageCodeParam {
+  @IsString()
+  @IsAviable(Language, "code")
+  language_code!: string;
+}
+
+export { GetTranslationBody, UpdateTranslationBody, SinceDto, LanguageCodeParam };

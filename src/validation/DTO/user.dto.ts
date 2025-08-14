@@ -1,7 +1,7 @@
 import { IsNumber, IsOptional, IsString } from "class-validator";
-import { IsValidNewUsername, IsValidNewEmail, IsValidPassword } from "../decorators";
 import { IsUnique } from "../decorators/IsUnique";
 import { User } from "../../db/entities";
+import { IsValidNewEmail, IsValidPassword, IsValidNewUsername } from "../decorators";
 
 class CreateUserBody {
     @IsString()
