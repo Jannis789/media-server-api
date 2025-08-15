@@ -8,7 +8,8 @@
     "migration:up": "mikro-orm migration:up --config src/config/mikro-orm.config.ts",
     "migration:down": "mikro-orm migration:down --config src/config/mikro-orm.config.ts",
     "migration:pending": "mikro-orm migration:pending --config src/config/mikro-orm.config.ts",
-    "migration:list": "mikro-orm migration:list --config src/config/mikro-orm.config.ts"
+    "migration:list": "mikro-orm migration:list --config src/config/mikro-orm.config.ts",
+    "update-submodule": "cd src/validation/shared && git fetch origin && git reset --hard origin/master && cd -"
   },
   "dependencies": {
     "@koa/cors": "^5.0.0",
