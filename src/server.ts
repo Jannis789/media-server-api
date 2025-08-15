@@ -2,6 +2,7 @@ import { createApp } from './app';
 import { ConfigObject } from './config/index';
 import { TranslationService } from './services/Translation/TranslationService';
 import { overrideTranslations } from './utils/overrideTranslations';
+
 const args = process.argv.slice(2);
 
 async function main() {

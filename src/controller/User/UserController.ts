@@ -22,7 +22,7 @@ class UserController {
         
         return {
             status: 201,
-            message: "User created successfully",
+            messages: ["User created successfully"],
             data: {
                 session: session.uuid,
                 expiresAt: session.expiresAt,
@@ -37,7 +37,7 @@ class UserController {
 
         return {
             status: 200,
-            message: "Login successful",
+            messages: ["Login successful"],
             data: {
                 session: session!.uuid,
                 expiresAt: session!.expiresAt,

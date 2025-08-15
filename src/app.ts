@@ -21,6 +21,12 @@ export async function createApp() {
   global.orm = orm;
   global.em = em;
 
+  app.use(cors({
+    origin: "*",        // alle Origins
+    allowMethods: ["GET","POST","PUT","DELETE","OPTIONS"], // alle Methoden
+    allowHeaders: ["Content-Type", "Authorization"],       // gängige Header
+  }));
+
   const roleService = new RoleService(em);
   await roleService.createDefaultRoles();
 

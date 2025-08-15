@@ -20,7 +20,7 @@ export class TranslationController {
 
         return {
             status: 200,
-            message: "Translations retrieved successfully",
+            messages: ["Translations retrieved successfully"],
             data: translations,
         };
     }

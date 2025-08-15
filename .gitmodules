@@ -1,3 +1,6 @@
 [submodule "media-server-types"]
-	path = media-server-types
+	path = src/validation/shared
+	url = https://github.com/Jannis789/media-server-types
+[submodule "src/validation/shared"]
+	path = src/validation/shared
 	url = https://github.com/Jannis789/media-server-types
