@@ -1,4 +1,5 @@
 import { Middleware, KoaMiddlewareInterface } from "routing-controllers";
+import { GenericResponse } from "../validation/shared/basic.response.types";
 
 @Middleware({ type: "before" })
 export class ValidationErrorHandler implements KoaMiddlewareInterface {
@@ -6,21 +7,39 @@ export class ValidationErrorHandler implements KoaMiddlewareInterface {
         try {
             await next();
         } catch (error: any) {
-            // Prüfe, ob class-validator Fehler-Array vorhanden ist
             if (Array.isArray(error?.errors)) {
-                // Sammle ALLE Fehlermeldungen aus allen Properties
-                const messages = error.errors.flatMap((e: any) =>
-                    e.constraints ? Object.values(e.constraints) : []
-                );
+                // Felder und deren Fehlermeldungen extrahieren
+                const fields = error.errors.map((e: any) => ({
+                    field: e.property,
+                    messages: e.constraints ? Object.values(e.constraints) : []
+                }));
+                const response: GenericResponse<null> = {
+                    status: 400,
+                    message: "Validation failed",
+                    success: false,
+                    error: {
+                        code: "VALIDATION_ERROR",
+                        fields
+                    }
+                };
                 ctx.status = 400;
-                ctx.body = { status: ctx.status, messages };
+                ctx.body = response;
             } else if (error.name === "BadRequestError" && error.errors) {
-                // Fallback für BadRequestError mit Fehler-Array
-                const messages = error.errors.flatMap((e: any) =>
-                    e.constraints ? Object.values(e.constraints) : []
-                );
+                const fields = error.errors.map((e: any) => ({
+                    field: e.property,
+                    messages: e.constraints ? Object.values(e.constraints) : []
+                }));
+                const response: GenericResponse<null> = {
+                    status: 400,
+                    message: "Bad request",
+                    success: false,
+                    error: {
+                        code: "BAD_REQUEST",
+                        fields
+                    }
+                };
                 ctx.status = 400;
-                ctx.body = { status: ctx.status, messages };
+                ctx.body = response;
             } else {
                 throw error;
             }

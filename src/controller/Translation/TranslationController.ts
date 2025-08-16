@@ -3,7 +3,7 @@ import { TranslationService } from "../../services/Translation/TranslationServic
 import { LanguageService } from "../../services/Translation/LanguageService";
 import { LanguageCodeParam, SinceDto } from "../../validation/DTO/translation.dto";
 import { ValidParam } from "../../validation/decorators/ValidParam";
-import { GetTranslationsResponse } from "../../validation/shared/translation.controller.types";
+import { GetTranslationsResponse } from "../../validation/shared/translation.responses";
 
 @Controller("/Translation")
 export class TranslationController {
@@ -20,7 +20,8 @@ export class TranslationController {
 
         return {
             status: 200,
-            messages: ["Translations retrieved successfully"],
+            success: true,
+            message: "Translations fetched successfully",
             data: translations,
         };
     }

@@ -5,7 +5,7 @@ import { RoleService } from "../../services/User/RoleService";
 import { SessionService } from "../../services/User/SessionService";
 import { LoginUserBody } from "../../validation/DTO/login.user.dto";
 import type { Response } from "koa";
-import { CreateUserResponse, LoginUserResponse } from "../../validation/shared/user.controller.types";
+import { CreateUserResponse, LoginUserResponse } from "../../validation/shared/user.responses";
 
 @Controller("/User")
 class UserController {
@@ -22,7 +22,8 @@ class UserController {
         
         return {
             status: 201,
-            messages: ["User created successfully"],
+            success: true,
+            message: "User created successfully",
             data: {
                 session: session.uuid,
                 expiresAt: session.expiresAt,
@@ -37,7 +38,8 @@ class UserController {
 
         return {
             status: 200,
-            messages: ["Login successful"],
+            success: true,
+            message: "Login successful",
             data: {
                 session: session!.uuid,
                 expiresAt: session!.expiresAt,
