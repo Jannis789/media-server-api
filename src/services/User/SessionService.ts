@@ -3,7 +3,7 @@ import { Session, User } from "../../db/entities";
 import { DateUtility } from "../../utils/DateUtility";
 
 export class SessionService {
-    private em: EntityManager;
+   em: EntityManager;
 
     constructor(em: EntityManager) {
         this.em = em;

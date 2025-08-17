@@ -4,7 +4,7 @@ import { GetLanguageBody } from "../../validation/DTO/language.dto";
 import { Body } from "routing-controllers";
 
 export class LanguageService {
-    private em: EntityManager;
+   em: EntityManager;
 
     constructor(em: EntityManager) {
         this.em = em;

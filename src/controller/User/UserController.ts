@@ -10,9 +10,9 @@ import { CreateUserResponse, LoginUserResponse } from "../../validation/shared/u
 @Controller("/User")
 class UserController {
 
-    private userService: UserService = new UserService(em);
-    private sessionService: SessionService = new SessionService(em);
-    private roleService: RoleService = new RoleService(em);
+   userService: UserService = new UserService(em);
+   sessionService: SessionService = new SessionService(em);
+   roleService: RoleService = new RoleService(em);
 
     @Post("/register")
     async createUser(@Body() body: CreateUserBody): Promise<CreateUserResponse> {

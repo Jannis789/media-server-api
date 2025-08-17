@@ -7,8 +7,8 @@ import { GetTranslationsResponse } from "../../validation/shared/translation.res
 
 @Controller("/Translation")
 export class TranslationController {
-    private translationService: TranslationService = new TranslationService(em);
-    private languageService: LanguageService = new LanguageService(em);
+   translationService: TranslationService = new TranslationService(em);
+   languageService: LanguageService = new LanguageService(em);
 
     @Post("/:language_code")
     async getTranslations(

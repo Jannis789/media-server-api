@@ -2,7 +2,7 @@ import { EntityManager } from "@mikro-orm/sqlite";
 import { Role, User } from "../../db/entities";
 
 export class RoleService {
-    private em: EntityManager;
+   em: EntityManager;
 
     constructor(em: EntityManager) {
         this.em = em;

@@ -4,8 +4,8 @@ import { Language } from "../../db/entities";
 import { UpdateTranslationBody } from "../../validation/DTO/translation.dto";
 
 export class TranslationService {
-    private em: EntityManager;
-    private static cache: Map<string, Array<{ key: string; value: string; updated_at: Date }>> = new Map();
+    em: EntityManager;
+    static cache: Map<string, Array<{ key: string; value: string; updated_at: Date }>> = new Map();
 
     constructor(em: EntityManager) {
         this.em = em;
@@ -40,7 +40,7 @@ export class TranslationService {
     }
 
 
-    getNewestChanges(language: string, since?: Date): Array<{ key: string; value: string }> {
+    getNewestChanges(language: string, since?: Date): Array<{ [key: string]: string }> {
         const arr = TranslationService.cache.get(language) || [];
         const result = [];
 
@@ -50,7 +50,7 @@ export class TranslationService {
         
         for (const entry of arr) {
             if (entry.updated_at > since) {
-                result.push({ key: entry.key, value: entry.value });
+                result.push({ [entry.key]: entry.value });
             } else {
                 break;
             }
