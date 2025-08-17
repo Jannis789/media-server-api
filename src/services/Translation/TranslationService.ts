@@ -2,6 +2,7 @@ import { EntityManager } from "@mikro-orm/sqlite";
 import { Translation } from "../../db/entities/Translation/translation.entity";
 import { Language } from "../../db/entities";
 import { UpdateTranslationBody } from "../../validation/DTO/translation.dto";
+import { Translations } from "../../validation/shared/translation.responses";
 
 export class TranslationService {
     em: EntityManager;
@@ -40,17 +41,20 @@ export class TranslationService {
     }
 
 
-    getNewestChanges(language: string, since?: Date): Array<{ [key: string]: string }> {
+    getNewestChanges(language: string, since?: Date): Translations {
         const arr = TranslationService.cache.get(language) || [];
-        const result = [];
+        const result: Translations = {};
 
         if (!since) {
-            return arr.map(entry => ({ key: entry.key, value: entry.value }));
+            for (const entry of arr) {
+                result[entry.key] = entry.value;
+            }
+            return result;
         }
         
         for (const entry of arr) {
             if (entry.updated_at > since) {
-                result.push({ [entry.key]: entry.value });
+                result[entry.key] = entry.value;
             } else {
                 break;
             }
