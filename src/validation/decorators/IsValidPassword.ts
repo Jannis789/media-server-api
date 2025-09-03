@@ -16,8 +16,8 @@ class IsValidPasswordConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments): string {
-    if (!isString(args.value)) return "Password muss ein String sein";
-    return "Password muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben und eine Zahl enthalten";
+    if (!isString(args.value)) return "Password must be a string";
+    return "Password must be at least 8 characters long and contain at least one letter and one number";
   }
 }
 

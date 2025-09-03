@@ -21,7 +21,7 @@ export class IsAviableConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `${args.property} muss bereits vorhanden sein`;
+    return `Corrosponding entry isn't aviable in the database.`;
   }
 }
 

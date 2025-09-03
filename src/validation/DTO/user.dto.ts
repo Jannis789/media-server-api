@@ -16,6 +16,9 @@ class CreateUserBody {
 
     @IsValidPassword()
     password!: string;
+
+    @IsOptional()
+    remember?: boolean;
 }
 
 class UpdateUserBody {

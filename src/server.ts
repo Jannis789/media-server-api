@@ -1,5 +1,6 @@
 import { createApp } from './app';
 import { ConfigObject } from './config/index';
+import { Translation } from './db/entities';
 import { TranslationService } from './services/Translation/TranslationService';
 import { overrideTranslations } from './utils/overrideTranslations';
 
@@ -10,6 +11,12 @@ async function main() {
   const port = ConfigObject.port;
   const host = ConfigObject.host;
 
+  if (args.includes('--delete-translations')) {
+    console.log('Deleting all translations...');
+    em.getRepository(Translation).nativeDelete({});
+    process.exit(0);
+  }
+  
   if (args.includes('--override-translations')) {
     console.log('Overriding translations...');
     await overrideTranslations();

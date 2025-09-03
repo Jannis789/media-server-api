@@ -27,7 +27,7 @@ export class IsAviablePasswordConstraint implements ValidatorConstraintInterface
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `${args.property} muss bereits vorhanden sein`;
+    return `The provided password is incorrect.`;
   }
 }
 

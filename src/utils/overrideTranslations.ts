@@ -23,6 +23,12 @@ const languageKeys = {
         fr: 'Connexion',
         de: 'Anmelden'
     },
+    loggingIn: {
+        en: 'Logging in...',
+        es: 'Iniciando sesión...',
+        fr: 'Connexion en cours...',
+        de: 'Anmeldung läuft...'
+    },
     logout: {
         en: 'Logout',
         es: 'Cerrar sesión',
@@ -70,6 +76,12 @@ const languageKeys = {
         es: 'Registrarse',
         fr: 'S’inscrire',
         de: 'Registrieren'
+    },
+    test: {
+        en: 'Test',
+        es: 'Prueba',
+        fr: 'Test',
+        de: 'Test'
     }
 };
 

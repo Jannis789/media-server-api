@@ -17,16 +17,16 @@ class UserController {
     @Post("/register")
     async createUser(@Body() body: CreateUserBody): Promise<CreateUserResponse> {
         const user = await this.userService.createUser(body.username, body.email, body.password);
-        const session = await this.sessionService.createSession(user);
         const role = await this.roleService.createRole(user, "user");
-        
+        const session = await this.userService.login(body.email, body.password, body.remember);
+              
         return {
             status: 201,
             success: true,
             message: "User created successfully",
             data: {
-                session: session.uuid,
-                expiresAt: session.expiresAt,
+                session: session!.uuid,
+                expiresAt: session!.expiresAt,
                 role: role.name,
             },
         };
