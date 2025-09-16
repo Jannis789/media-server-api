@@ -6,6 +6,7 @@ import { SessionService } from "../../services/User/SessionService";
 import { LoginUserBody } from "../../validation/DTO/login.user.dto";
 import type { Response } from "koa";
 import { CreateUserResponse, LoginUserResponse } from "../../validation/shared/user.responses";
+import { translate, translateMessage } from "../../utils/translations/translator";
 
 @Controller("/User")
 class UserController {
@@ -39,7 +40,7 @@ class UserController {
         return {
             status: 200,
             success: true,
-            message: "Login successful",
+            message: translateMessage("login_successful"),
             data: {
                 session: session!.uuid,
                 expiresAt: session!.expiresAt,

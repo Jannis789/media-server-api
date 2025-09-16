@@ -2,7 +2,7 @@ import { createApp } from './app';
 import { ConfigObject } from './config/index';
 import { Translation } from './db/entities';
 import { TranslationService } from './services/Translation/TranslationService';
-import { overrideTranslations } from './utils/overrideTranslations';
+import { overrideTranslations } from './utils/translations/overrideTranslations';
 
 const args = process.argv.slice(2);
 

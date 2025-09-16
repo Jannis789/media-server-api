@@ -1,9 +1,10 @@
 import { Middleware, KoaMiddlewareInterface } from "routing-controllers";
 import { GenericResponse } from "../validation/shared/basic.response.types";
+import { Context } from "koa";
 
 @Middleware({ type: "before" })
 export class ValidationErrorHandler implements KoaMiddlewareInterface {
-    async use(ctx: any, next: () => Promise<any>) {
+    async use(ctx: Context, next: () => Promise<any>) {
         try {
             await next();
         } catch (error: any) {

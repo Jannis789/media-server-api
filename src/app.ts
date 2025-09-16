@@ -4,6 +4,7 @@ import cors from "@koa/cors";
 import { MikroORM } from '@mikro-orm/core';
 import { useKoaServer } from 'routing-controllers';
 import { ValidationErrorHandler } from './middlewares/ValidateErrorHandler';
+import { LanguageHandlerMiddleware } from './middlewares/LanguageHandler';
 import { RoleService } from './services/User/RoleService';
 import type { EntityManager } from '@mikro-orm/sqlite';
 
@@ -24,7 +25,7 @@ export async function createApp() {
   app.use(cors({
     origin: "*",        // alle Origins
     allowMethods: ["GET","POST","PUT","DELETE","OPTIONS"], // alle Methoden
-    allowHeaders: ["Content-Type", "Authorization"],       // gängige Header
+    allowHeaders: ["Content-Type", "Authorization", "x-Session-UUID", "Accept-Language"],       // gängige Header
   }));
 
   const roleService = new RoleService(em);
@@ -32,7 +33,7 @@ export async function createApp() {
 
   useKoaServer(app, {
     controllers: [__dirname + '/controller/**/*.ts'],
-    middlewares: [ValidationErrorHandler],
+    middlewares: [ValidationErrorHandler, LanguageHandlerMiddleware],
     validation: true,
     classTransformer: true,
     defaultErrorHandler: false,
