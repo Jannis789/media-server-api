@@ -2,12 +2,57 @@ import { EntityManager } from "@mikro-orm/sqlite";
 import { Translation } from "../../db/entities/Translation/translation.entity";
 import { Language } from "../../db/entities";
 import { UpdateTranslationBody } from "../../validation/DTO/translation.dto";
+
 import { Translations } from "../../validation/shared/translation.responses";
+
+class TranslationCache {
+    private static cache: Map<string, Map<string, { value: string | null; updated_at: Date }>> = new Map();
+
+    static clearAll() {
+        TranslationCache.cache.clear();
+    }
+
+    static setAll(langCode: string, entries: Array<{ key: string; value: string; updated_at: Date }>) {
+        const map = new Map<string, { value: string | null; updated_at: Date }>();
+        for (const e of entries) {
+            map.set(e.key, { value: e.value, updated_at: e.updated_at });
+        }
+        TranslationCache.cache.set(langCode, map);
+    }
+
+    static addOrUpdate(langCode: string, key: string, value: string, updated_at: Date) {
+        let map = TranslationCache.cache.get(langCode);
+        if (!map) {
+            map = new Map();
+            TranslationCache.cache.set(langCode, map);
+        }
+        map.set(key, { value, updated_at });
+    }
+
+    static delete(langCode: string, key: string, deleted_at: Date) {
+        let map = TranslationCache.cache.get(langCode);
+        if (!map) {
+            map = new Map();
+            TranslationCache.cache.set(langCode, map);
+        }
+        map.set(key, { value: null, updated_at: deleted_at });
+    }
+
+    static getDelta(langCode: string, since?: Date): Translations {
+        const map = TranslationCache.cache.get(langCode);
+        const result: Translations = {};
+        if (!map) return result;
+        for (const [key, { value, updated_at }] of map.entries()) {
+            if (!since || updated_at > since) {
+                result[key] = value;
+            }
+        }
+        return result;
+    }
+}
 
 export class TranslationService {
     em: EntityManager;
-    static cache: Map<string, Array<{ key: string; value: string; updated_at: Date }>> = new Map();
-
     constructor(em: EntityManager) {
         this.em = em;
     }
@@ -20,65 +65,45 @@ export class TranslationService {
         });
 
         console.info(`Caching ${translations.length} translations...`);
-        TranslationService.cache.clear();
+        TranslationCache.clearAll();
 
-        for (const translation of translations) {
-            const langCode = translation.language.code;
-            const entry = {
-                key: translation.key,
-                value: translation.value,
-                updated_at: translation.updated_at,
-            };
-
-            if (!TranslationService.cache.has(langCode)) {
-                TranslationService.cache.set(langCode, []);
-            }
-
-            TranslationService.cache.get(langCode)!.push(entry);
+        // Gruppiere nach Sprache
+        const grouped: Record<string, Array<{ key: string; value: string; updated_at: Date }>> = {};
+        for (const t of translations) {
+            const lang = t.language.code;
+            if (!grouped[lang]) grouped[lang] = [];
+            grouped[lang].push({ key: t.key, value: t.value, updated_at: t.updated_at });
         }
-
-        console.info("Languages cached:", Array.from(TranslationService.cache.keys()));
+        for (const lang in grouped) {
+            TranslationCache.setAll(lang, grouped[lang]);
+        }
+        console.info("Languages cached:", Object.keys(grouped));
     }
 
 
-    getNewestChanges(language: string, since?: Date): Translations {
-        const arr = TranslationService.cache.get(language) || [];
-        const result: Translations = {};
-
-        if (!since) {
-            for (const entry of arr) {
-                result[entry.key] = entry.value;
-            }
-            return result;
+    getNewestChanges(language: string, since?: Date): { refreshAll: boolean; translations: Translations } {
+        const map = (TranslationCache as any).cache.get(language) as Map<string, { value: string | null; updated_at: Date }> | undefined;
+        if (!map) return { refreshAll: true, translations: {} as Translations };
+        if (!since) return { refreshAll: true, translations: TranslationCache.getDelta(language) };
+        // Finde ältesten updated_at
+        let oldest: Date | undefined = undefined;
+        for (const { updated_at } of map.values()) {
+            if (!oldest || updated_at < oldest) oldest = updated_at;
         }
-        
-        for (const entry of arr) {
-            if (entry.updated_at > since) {
-                result[entry.key] = entry.value;
-            } else {
-                break;
-            }
+        if (oldest && since < oldest) {
+            return { refreshAll: true, translations: TranslationCache.getDelta(language) };
         }
-        return result;
+        return { refreshAll: false, translations: TranslationCache.getDelta(language, since) };
     }
 
     async updateCacheSince(since: Date) {
         const newTranslations = await this.em.find(Translation, { updated_at: { $gt: since } }, {
             populate: ['language']
         });
-
         for (const t of newTranslations) {
             const lang = t.language.code;
-            const arr = TranslationService.cache.get(lang) || [];
-            const entry = { key: t.key, value: t.value, updated_at: t.updated_at };
-
-            const idx = arr.findIndex(e => e.key === entry.key);
-            if (idx !== -1) arr[idx] = entry;
-            else arr.unshift(entry);
-
-            TranslationService.cache.set(lang, arr);
+            TranslationCache.addOrUpdate(lang, t.key, t.value, t.updated_at);
         }
-
     }
 
     async createTranslation(key: string, value: string, language: Language): Promise<Translation | null> {
@@ -92,7 +117,7 @@ export class TranslationService {
             language,
         } as Translation);
         await this.em.persistAndFlush(translation);
-        this.updateCacheSince(new Date());
+        TranslationCache.addOrUpdate(language.code, key, value, translation.updated_at);
         return translation;
     }
 
@@ -110,12 +135,15 @@ export class TranslationService {
             translation.description = entity.description;
         
         await this.em.persistAndFlush(translation);
-        this.updateCacheSince(new Date());
+        TranslationCache.addOrUpdate(translation.language.code, translation.key, translation.value, translation.updated_at);
         return translation;
     }
 
     async deleteTranslation(translation: Translation) {
+        const langCode = translation.language.code;
+        const key = translation.key;
+        const now = new Date();
         await this.em.removeAndFlush(translation);
-        this.updateCacheSince(new Date());
+        TranslationCache.delete(langCode, key, now);
     }
 }

@@ -65,6 +65,24 @@ export const languageKeys = {
         fr: 'S’inscrire',
         de: 'Registrieren'
     },
+    username: {
+        en: 'Username',
+        es: 'Nombre de usuario',
+        fr: "Nom d'utilisateur",
+        de: 'Benutzername'
+    },
+    user: {
+        en: 'User',
+        es: 'Usuario',
+        fr: 'Utilisateur',
+        de: 'Benutzer'
+    },
+    hasAccount: {
+        en: 'Already have an account?',
+        es: '¿Ya tienes una cuenta?',
+        fr: 'Vous avez déjà un compte ?',
+        de: 'Bereits ein Konto?'
+    },
     test: {
         en: 'Test',
         es: 'Prueba',

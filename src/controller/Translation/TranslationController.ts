@@ -4,11 +4,12 @@ import { LanguageService } from "../../services/Translation/LanguageService";
 import { LanguageCodeParam, SinceDto } from "../../validation/DTO/translation.dto";
 import { ValidParam } from "../../validation/decorators/ValidParam";
 import { GetTranslationsResponse } from "../../validation/shared/translation.responses";
+import { translateMessage } from "../../utils/translations/translator";
 
 @Controller("/Translation")
 export class TranslationController {
-   translationService: TranslationService = new TranslationService(em);
-   languageService: LanguageService = new LanguageService(em);
+   translationService = new TranslationService(em);
+   languageService = new LanguageService(em);
 
     @Post("/:language_code")
     async getTranslations(
@@ -21,7 +22,7 @@ export class TranslationController {
         return {
             status: 200,
             success: true,
-            message: "Translations fetched successfully",
+            message: translateMessage("translations_fetched_successfully"),
             data: translations,
         };
     }

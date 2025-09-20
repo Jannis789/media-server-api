@@ -24,7 +24,7 @@ class UserController {
         return {
             status: 201,
             success: true,
-            message: "User created successfully",
+            message: translateMessage("user_created_successfully"),
             data: {
                 session: session!.uuid,
                 expiresAt: session!.expiresAt,

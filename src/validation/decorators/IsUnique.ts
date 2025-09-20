@@ -6,11 +6,13 @@ import {
   ValidatorConstraintInterface,
 } from "class-validator";
 
+
 @ValidatorConstraint({ async: true })
 export class IsUniqueConstraint implements ValidatorConstraintInterface {
   constructor() {}
 
   async validate(value: any, args: ValidationArguments) {
+    console.log(value);
     const [EntityClass, property] = args.constraints;
 
     const exists = await em.findOne(EntityClass, {
@@ -18,10 +20,6 @@ export class IsUniqueConstraint implements ValidatorConstraintInterface {
     } as any);
 
     return !exists;
-  }
-
-  defaultMessage(args: ValidationArguments) {
-    return `${args.property} muss eindeutig sein`;
   }
 }
 

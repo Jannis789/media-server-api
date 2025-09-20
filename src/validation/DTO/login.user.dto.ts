@@ -1,4 +1,4 @@
-import { IsEmail, IsOptional } from "class-validator";
+import { IsBoolean, IsEmail, IsOptional } from "class-validator";
 import { User } from "../../db/entities";
 import { IsAviable, IsAviablePassword, IsValidPassword } from "../decorators";
 import { fetchTranslation } from "../../utils/translations/translator";
@@ -13,6 +13,7 @@ class LoginUserBody {
     password!: string;
 
     @IsOptional()
+    @IsBoolean({ message: fetchTranslation("not_a_boolean") })
     remember?: boolean;
 }
 

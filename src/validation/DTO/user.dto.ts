@@ -1,42 +1,44 @@
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString } from "class-validator";
 import { IsUnique } from "../decorators/IsUnique";
 import { User } from "../../db/entities";
 import { IsValidNewEmail, IsValidPassword, IsValidNewUsername } from "../decorators";
+import { fetchTranslation } from "../../utils/translations/translator";
 
 class CreateUserBody {
-    @IsString()
-    @IsUnique(User, "username")
-    @IsValidNewUsername()
+    @IsString({ message: fetchTranslation("not_a_string") })
+    @IsUnique(User, "username", { message: fetchTranslation("username_not_unique") })
+    @IsValidNewUsername({message: fetchTranslation("invalid_username")})
     username!: string;
 
-    @IsString()
-    @IsUnique(User, "email")
-    @IsValidNewEmail()
+    @IsString({ message: fetchTranslation("not_a_string") })
+    @IsUnique(User, "email", { message: fetchTranslation("email_not_unique") })
+    @IsValidNewEmail({message: fetchTranslation("invalid_email")})
     email!: string;
 
-    @IsValidPassword()
+    @IsValidPassword({message: fetchTranslation("invalid_password")})
     password!: string;
 
     @IsOptional()
+    @IsBoolean({ message: fetchTranslation("not_a_boolean") })
     remember?: boolean;
 }
 
 class UpdateUserBody {
-    @IsNumber()
+    @IsNumber({},{ message: fetchTranslation("not_a_number") })
     id!: number;
 
     @IsOptional()
-    @IsString()
-    @IsValidNewUsername()
+    @IsString({ message: fetchTranslation("not_a_string") })
+    @IsValidNewUsername({message: fetchTranslation("invalid_username")})
     username?: string;
 
     @IsOptional()
-    @IsString()
-    @IsValidNewEmail()
+    @IsString({ message: fetchTranslation("not_a_string") })
+    @IsValidNewEmail({message: fetchTranslation("invalid_email")})
     email?: string;
 
     @IsOptional()
-    @IsValidPassword()
+    @IsValidPassword({message: fetchTranslation("invalid_password")})
     password?: string;
 }
 
